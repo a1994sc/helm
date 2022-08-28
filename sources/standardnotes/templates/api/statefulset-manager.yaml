@@ -1,0 +1,69 @@
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: {{ printf "%s-%s" (include "standardnotes.name" .) .Values.api.name | trunc 63 | trimSuffix "-" }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "standardnotes.labels" . | nindent 4 }}
+spec:
+  serviceAccountName: {{ include "standardnotes.serviceAccountName" . }}
+  replicas: {{ default 1 .Values.api.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "standardnotes.apiSelectorLabels" . | nindent 6 }}
+  serviceName: {{ printf "%s-%s" (include "standardnotes.name" .) .Values.api.name | trunc 63 | trimSuffix "-" }}
+  minReadySeconds: {{ default .Values.global.minReadySeconds .Values.api.minReadySeconds }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "standardnotes.apiSelectorLabels" . | nindent 8 }}
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: {{ printf "%s" .Values.api.name | trunc 63 | trimSuffix "-" }}
+        image: {{ printf "%s:%s" .Values.api.image.repository (default "latest" .Values.api.image.tag) | quote}}
+        imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+        command:
+        - ./docker/entrypoint.sh
+        args:
+        - start-web
+        env:
+        - name: PORT
+          value: {{ .Values.api.port }}
+        - name: AUTH_SERVER_URL
+          // TODO: Move this SVC name generator too _helpers.tpl
+          value: {{ printf "http://%s:%d" (printf "%s-%s" (include "standardnotes.name" .) .Values.auth.name | trunc 63 | trimSuffix "-") (.Values.auth.port | int) }}
+        - name: SYNCING_SERVER_JS_URL
+          // TODO: Move this SVC name generator too _helpers.tpl
+          value: {{ printf "http://%s:%d" (printf "%s-%s" (include "standardnotes.name" .) .Values.sync.name | trunc 63 | trimSuffix "-") (.Values.sync.port | int) }}
+        {{- with .Values.api.envFrom }}
+        envFrom:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with (default .Values.global.livenessProbe .Values.api.livenessProbe) }}
+        livenessProbe:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with (default .Values.global.resources .Values.api.resources) }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      {{- with .Values.global.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.global.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.global.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -1,0 +1,65 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ printf "%s-%s" (include "standardnotes.name" .) .Values.sync.name | trunc 63 | trimSuffix "-" }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "standardnotes.labels" . | nindent 4 }}
+spec:
+  serviceAccountName: {{ include "standardnotes.serviceAccountName" . }}
+  {{- if not .Values.sync.autoscaling.enabled }}
+  replicas: {{ .Values.sync.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "standardnotes.syncWorkerSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "standardnotes.syncWorkerSelectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: {{ printf "%s" .Values.sync.name | trunc 63 | trimSuffix "-" }}
+        image: {{ printf "%s:%s" .Values.sync.image.repository (default "latest" .Values.sync.image.tag) | quote}}
+        imagePullPolicy: {{ .Values.sync.image.pullPolicy }}
+        command:
+        - ./docker/entrypoint.sh
+        args:
+        - start-worker
+        env:
+        - name: PORT
+          value: {{ .Values.sync.port }}
+        - name: SYNCING_SERVER_JS_URL
+          // TODO: Move this SVC name generator too _helpers.tpl
+          value: {{ printf "http://%s:%d" (printf "%s-%s" (include "standardnotes.name" .) .Values.sync.name | trunc 63 | trimSuffix "-") (.Values.sync.port | int) }}
+        {{- with .Values.sync.envFrom }}
+        envFrom:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with (default .Values.global.livenessProbe .Values.sync.livenessProbe) }}
+        livenessProbe:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with (default .Values.global.resources .Values.sync.resources) }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      {{- with .Values.global.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.global.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.global.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
