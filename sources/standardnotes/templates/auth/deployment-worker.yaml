@@ -37,6 +37,12 @@ spec:
         - name: AUTH_SERVER_URL
           // TODO: Move this SVC name generator too _helpers.tpl
           value: {{ printf "http://%s:%d" (printf "%s-%s" (include "standardnotes.name" .) .Values.auth.name | trunc 63 | trimSuffix "-") (.Values.auth.port | int) }}
+        {{- with .Values.global.env }}
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.auth.env }}
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         {{- with .Values.auth.envFrom }}
         envFrom:
           {{- toYaml . | nindent 10 }}

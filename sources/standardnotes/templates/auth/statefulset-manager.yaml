@@ -35,6 +35,12 @@ spec:
         env:
         - name: PORT
           value: {{ .Values.auth.port }}
+        {{- with .Values.global.env }}
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.auth.env }}
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         {{- with .Values.auth.envFrom }}
         envFrom:
           {{- toYaml . | nindent 10 }}

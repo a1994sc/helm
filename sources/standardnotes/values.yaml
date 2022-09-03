@@ -36,6 +36,14 @@ global:
     # limits:
     #   cpu: 200m
     #   memory: 256Mi
+  env: []
+  # - name: AUTH_JWT_SECRET
+  #   value: ""
+  envFrom: []
+  # - configMapRef:
+  #     name: example-env
+  # - secretRef:
+  #     name: example-secret
   livenessProbe: {}
     # httpGet:
     #   path: /healthcheck
@@ -60,6 +68,9 @@ api:
     # requests:
     #   cpu: "25m"
     #   memory: "32Mi"
+  env: []
+  # - name: AUTH_JWT_SECRET
+  #   value: ""
   envFrom: []
   # - configMapRef:
   #     name: example-env
@@ -85,6 +96,9 @@ auth:
     # requests:
     #   cpu: "25m"
     #   memory: "32Mi"
+  env: []
+  # - name: AUTH_JWT_SECRET
+  #   value: ""
   envFrom: []
   # - configMapRef:
   #     name: example-env
@@ -115,6 +129,9 @@ sync:
     # requests:
     #   cpu: "25m"
     #   memory: "32Mi"
+  env: []
+  # - name: AUTH_JWT_SECRET
+  #   value: ""
   envFrom: []
   # - configMapRef:
   #     name: example-env

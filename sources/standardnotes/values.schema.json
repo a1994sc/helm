@@ -5,6 +5,9 @@
         "api": {
             "type": "object",
             "properties": {
+                "env": {
+                    "type": "array"
+                },
                 "envFrom": {
                     "type": "array"
                 },
@@ -61,6 +64,9 @@
                             "type": "integer"
                         }
                     }
+                },
+                "env": {
+                    "type": "array"
                 },
                 "envFrom": {
                     "type": "array"
@@ -121,6 +127,12 @@
                 },
                 "annotations": {
                     "type": "object"
+                },
+                "env": {
+                    "type": "array"
+                },
+                "envFrom": {
+                    "type": "array"
                 },
                 "imagePullSecrets": {
                     "type": "array"
@@ -243,6 +255,9 @@
                             "type": "integer"
                         }
                     }
+                },
+                "env": {
+                    "type": "array"
                 },
                 "envFrom": {
                     "type": "array"

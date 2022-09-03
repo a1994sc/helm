@@ -35,6 +35,12 @@ spec:
         env:
         - name: PORT
           value: {{ .Values.sync.port }}
+        {{- with .Values.global.env }}
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.sync.env }}
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         {{- with .Values.sync.envFrom }}
         envFrom:
           {{- toYaml . | nindent 10 }}
