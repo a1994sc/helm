@@ -2,7 +2,7 @@
 kind: StatefulSet
 apiVersion: apps/v1
 metadata:
-  name: {{ printf "%s-%s" (include "standardnotes.name" .) .Values.auth.name | trunc 63 | trimSuffix "-" }}
+  name: {{ printf "%s-%s" (include "standardnotes.fullname" .) .Values.auth.name | trunc 63 | trimSuffix "-" }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "standardnotes.labels" . | nindent 4 }}
@@ -11,7 +11,7 @@ spec:
   selector:
     matchLabels:
       {{- include "standardnotes.authSelectorLabels" . | nindent 6 }}
-  serviceName: {{ printf "%s-%s" (include "standardnotes.name" .) .Values.auth.name | trunc 63 | trimSuffix "-" }}
+  serviceName: {{ printf "%s-%s" (include "standardnotes.fullname" .) .Values.auth.name | trunc 63 | trimSuffix "-" }}
   minReadySeconds: {{ default .Values.global.minReadySeconds .Values.auth.minReadySeconds }}
   template:
     metadata:

@@ -2,7 +2,7 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: {{ printf "%s-%s" (include "standardnotes.name" .) .Values.sync.name | trunc 63 | trimSuffix "-" }}
+  name: {{ printf "%s-%s" (include "standardnotes.fullname" .) .Values.sync.name | trunc 63 | trimSuffix "-" }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "standardnotes.labels" . | nindent 4 }}
@@ -35,9 +35,9 @@ spec:
           - name: PORT
             {{ printf "value: %s" (.Values.sync.port | quote)}}
           - name: SYNCING_SERVER_JS_URL
-            {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.name" .) .Values.sync.name | trunc 63 | trimSuffix "-") (.Values.sync.port | int) }}
+            {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.fullname" .) .Values.sync.name | trunc 63 | trimSuffix "-") (.Values.sync.port | int) }}
           - name: FILES_SERVER_URL
-            {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.name" .) .Values.file.name | trunc 63 | trimSuffix "-") (.Values.file.port | int) }}
+            {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.fullname" .) .Values.file.name | trunc 63 | trimSuffix "-") (.Values.file.port | int) }}
           - name: REDIS_EVENTS_CHANNEL
             {{ printf "value: %s" (.Values.sync.redisChannel | quote)}}
           {{- if .Values.global.env}}

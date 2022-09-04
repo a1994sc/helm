@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ printf "%s-%s" (include "standardnotes.name" .) .Values.sync.name | trunc 63 | trimSuffix "-" }}
+  name: {{ printf "%s-%s" (include "standardnotes.fullname" .) .Values.sync.name | trunc 63 | trimSuffix "-" }}
   labels:
     {{- include "standardnotes.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ printf "%s-%s" (include "standardnotes.name" .) .Values.sync.name | trunc 63 | trimSuffix "-" }}
+    name: {{ printf "%s-%s" (include "standardnotes.fullname" .) .Values.sync.name | trunc 63 | trimSuffix "-" }}
   minReplicas: {{ .Values.sync.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.sync.autoscaling.maxReplicas }}
   metrics:
