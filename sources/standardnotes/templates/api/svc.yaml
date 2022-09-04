@@ -12,5 +12,6 @@ spec:
       name: api
       port: {{ .Values.api.port }}
       targetPort: {{ .Values.api.port }}
+  clusterIP: None
   selector:
     {{- include "standardnotes.apiSelectorLabels" . | nindent 4 }}

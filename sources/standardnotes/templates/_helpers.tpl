@@ -59,6 +59,15 @@ app.kubernetes.io/function: {{ default "api-gateway" .Values.api.selectorID }}
 {{- end }}
 
 {{/*
+FILE Selector labels
+*/}}
+{{- define "standardnotes.fileSelectorLabels" -}}
+{{include "standardnotes.selectorLabels" . }}
+app.kubernetes.io/function: {{ default "file" .Values.file.selectorID }}
+{{- end }}
+
+
+{{/*
 AUTH manager Selector labels
 */}}
 {{- define "standardnotes.authSelectorLabels" -}}
