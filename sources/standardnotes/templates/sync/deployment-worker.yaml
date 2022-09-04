@@ -32,17 +32,17 @@ spec:
         args:
         - start-worker
         env:
-        - name: PORT
-          value: {{ .Values.sync.port }}
-        - name: SYNCING_SERVER_JS_URL
-          // TODO: Move this SVC name generator too _helpers.tpl
-          value: {{ printf "http://%s:%d" (printf "%s-%s" (include "standardnotes.name" .) .Values.sync.name | trunc 63 | trimSuffix "-") (.Values.sync.port | int) }}
-        {{- with .Values.global.env }}
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
-        {{- with .Values.sync.env }}
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
+          - name: PORT
+            value: {{ .Values.sync.port }}
+          - name: SYNCING_SERVER_JS_URL
+            // TODO: Move this SVC name generator too _helpers.tpl
+            value: {{ printf "http://%s:%d" (printf "%s-%s" (include "standardnotes.name" .) .Values.sync.name | trunc 63 | trimSuffix "-") (.Values.sync.port | int) }}
+          {{- if .Values.global.env}}
+          {{- toYaml .Values.global.env | nindent 10 }}
+          {{- end }}
+          {{- if .Values.sync.env}}
+          {{- toYaml .Values.sync.env | nindent 10 }}
+          {{- end }}
         {{- with .Values.sync.envFrom }}
         envFrom:
           {{- toYaml . | nindent 10 }}
