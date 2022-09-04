@@ -2,9 +2,9 @@ apiVersion: v1
 entries:
   standardnotes:
   - apiVersion: v2
-    created: "2022-09-04T13:33:32.808908023Z"
+    created: "2022-09-04T13:33:35.539995136Z"
     description: A Helm chart for self-hosting Standard Notes server.
-    digest: 7106a759cd68e0924c6fd779e22a8c67ed6d15bc431802b828858485ddf1f2b6
+    digest: 37a1d2471b85774021602940e1b5e1085751ac70e924d2d6984c76373ce44ac5
     home: https://github.com/A1994SC/helm
     icon: https://standardnotes.com/app-icon-blue.png
     keywords:
@@ -17,7 +17,7 @@ entries:
     - https://github.com/standardnotes/standalone
     type: application
     urls:
-    - https://github.com/A1994SC/helm/releases/download/standardnotes-0.4.2/standardnotes-0.4.2.tgz
+    - https://a1994sc.github.io/helm/standardnotes-0.4.2.tgz
     version: 0.4.2
   - apiVersion: v2
     appVersion: 1.16.0
@@ -29,4 +29,4 @@ entries:
     urls:
     - https://a1994sc.github.io/helm/standardnotes-0.4.1.tgz
     version: 0.4.1
-generated: "2022-09-04T13:33:32.808916124Z"
+generated: "2022-09-04T13:33:35.53789266Z"
