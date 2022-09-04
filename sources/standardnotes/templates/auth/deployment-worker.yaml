@@ -7,7 +7,6 @@ metadata:
   labels:
     {{- include "standardnotes.labels" . | nindent 4 }}
 spec:
-  serviceAccountName: {{ include "standardnotes.serviceAccountName" . }}
   {{- if not .Values.auth.autoscaling.enabled }}
   replicas: {{ .Values.auth.replicaCount }}
   {{- end }}
@@ -23,6 +22,7 @@ spec:
       labels:
         {{- include "standardnotes.authWorkerSelectorLabels" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ include "standardnotes.serviceAccountName" . }}
       containers:
       - name: {{ printf "%s" .Values.auth.name | trunc 63 | trimSuffix "-" }}
         image: {{ printf "%s:%s" .Values.auth.image.repository (default "latest" .Values.auth.image.tag) | quote}}

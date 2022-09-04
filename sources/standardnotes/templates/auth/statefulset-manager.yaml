@@ -7,7 +7,6 @@ metadata:
   labels:
     {{- include "standardnotes.labels" . | nindent 4 }}
 spec:
-  serviceAccountName: {{ include "standardnotes.serviceAccountName" . }}
   replicas: {{ default 1 .Values.auth.replicaCount }}
   selector:
     matchLabels:
@@ -23,6 +22,7 @@ spec:
       labels:
         {{- include "standardnotes.authSelectorLabels" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ include "standardnotes.serviceAccountName" . }}
       terminationGracePeriodSeconds: 10
       containers:
       - name: {{ printf "%s" .Values.auth.name | trunc 63 | trimSuffix "-" }}

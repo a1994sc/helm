@@ -7,7 +7,6 @@ metadata:
   labels:
     {{- include "standardnotes.labels" . | nindent 4 }}
 spec:
-  serviceAccountName: {{ include "standardnotes.serviceAccountName" . }}
   {{- if not .Values.sync.autoscaling.enabled }}
   replicas: {{ .Values.sync.replicaCount }}
   {{- end }}
@@ -23,6 +22,7 @@ spec:
       labels:
         {{- include "standardnotes.syncWorkerSelectorLabels" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ include "standardnotes.serviceAccountName" . }}
       containers:
       - name: {{ printf "%s" .Values.sync.name | trunc 63 | trimSuffix "-" }}
         image: {{ printf "%s:%s" .Values.sync.image.repository (default "latest" .Values.sync.image.tag) | quote}}

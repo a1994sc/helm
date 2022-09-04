@@ -23,6 +23,7 @@ spec:
       labels:
         {{- include "standardnotes.syncSelectorLabels" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ include "standardnotes.serviceAccountName" . }}
       terminationGracePeriodSeconds: 10
       containers:
       - name: {{ printf "%s" .Values.sync.name | trunc 63 | trimSuffix "-" }}
