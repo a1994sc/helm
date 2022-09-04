@@ -17,12 +17,16 @@ spec:
     - type: Resource
       resource:
         name: cpu
-        targetAverageUtilization: {{ .Values.sync.autoscaling.targetCPUUtilizationPercentage }}
+        target: 
+          type: Utilization
+          averageUtilization: {{ .Values.sync.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
     {{- if .Values.sync.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
         name: memory
-        targetAverageUtilization: {{ .Values.sync.autoscaling.targetMemoryUtilizationPercentage }}
+        target: 
+          type: Utilization
+          averageUtilization: {{ .Values.sync.autoscaling.targetMemoryUtilizationPercentage }}
     {{- end }}
 {{- end }}
