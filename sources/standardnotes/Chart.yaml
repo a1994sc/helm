@@ -3,7 +3,7 @@ name: standardnotes
 description: A Helm chart for Kubernetes
 
 type: application
-version: 0.2.6
+version: 0.2.7
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
