@@ -8,7 +8,7 @@ metadata:
     {{- include "standardnotes.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.sync.autoscaling.enabled }}
-  replicas: {{ .Values.sync.replicaCount }}
+  replicas: {{ .Values.sync.workerReplicaCount }}
   {{- end }}
   selector:
     matchLabels:
