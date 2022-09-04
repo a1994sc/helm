@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  standardnotes:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-09-04T04:08:11.541687647Z"
+    description: A Helm chart for Kubernetes
+    digest: 06cf6859840f848ee46c07f87215de2a83b0e41cbfd69c95fe0e659e5cdc084b
+    name: standardnotes
+    type: application
+    urls:
+    - https://a1994sc.github.io/helm/standardnotes-0.4.1.tgz
+    version: 0.4.1
+generated: "2022-09-04T04:08:11.53878653Z"
