@@ -1,0 +1,50 @@
+global:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: "kubernetes.io/arch"
+            operator: In
+            values: ["amd64"]
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  env:
+  - name: AUTH_JWT_SECRET
+    value: "VD5C@5aArYw%MUZNneB2m9$CoxGkEnKg"
+  - name: DB_PASSWORD
+    value: "Sandbox-Macarena-Cogwheel9"
+  - name: JWT_SECRET
+    value: "N3D!kgY8QVb%S#@ik2BhsGB&vKgHRzNt"
+  - name: LEGACY_JWT_SECRET
+    value: "RrunqY2KqWDaenz#Hhh&ZgW^45JQuf!x"
+  - name: PSEUDO_KEY_PARAMS_KEY
+    value: "ANXvbqFcv&64wond@2rAUo3F7pUn@Vsf"
+  - name: ENCRYPTION_SERVER_KEY
+    value: "545b2c2d252823433334b25ab9ecdec079b014a17aaf66f08c27322d4bef386f"
+  - name: SECRET_KEY_BASE
+    value: "$RQrq#bjtEv6ZJ^T$Zx5E8QaUrzYUNfN"
+  - name: DB_HOST
+    value: "maria.ingress.svc.cluster.local"
+  - name: DB_REPLICA_HOST
+    value: "maria.ingress.svc.cluster.local"
+  - name: DB_PORT
+    value: "3306"
+  - name: DB_USERNAME
+    value: "standard"
+  - name: DB_DATABASE
+    value: "notes"
+  - name: REDIS_URL
+    value: "redis://redis.redis.svc.cluster.local"
+  livenessProbe:
+    httpGet:
+      path: /healthcheck
+      port: 3000
+    initialDelaySeconds: 10
+    periodSeconds: 15
+  readinessProbe: {}

@@ -34,16 +34,22 @@ spec:
         - start-web
         env:
           - name: PORT
-            value: {{ .Values.api.port }}
+            {{ printf "value: %s" (.Values.api.port | quote)}}
           - name: AUTH_SERVER_URL
-            value: {{ printf "http://%s:%d" (printf "%s-%s" (include "standardnotes.name" .) .Values.auth.name | trunc 63 | trimSuffix "-") (.Values.auth.port | int) }}
+            {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.name" .) .Values.auth.name | trunc 63 | trimSuffix "-") (.Values.auth.port | int) }}
           - name: SYNCING_SERVER_JS_URL
-            value: {{ printf "http://%s:%d" (printf "%s-%s" (include "standardnotes.name" .) .Values.sync.name | trunc 63 | trimSuffix "-") (.Values.sync.port | int) }}
+            {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.name" .) .Values.sync.name | trunc 63 | trimSuffix "-") (.Values.sync.port | int) }}
           {{- if .Values.global.env}}
-          {{- toYaml .Values.global.env | nindent 10 }}
+          {{- range $i, $val := .Values.global.env }}
+          - name: {{ $val.name }}
+            {{ printf "value: %s" ($val.value | quote)}}
+          {{- end }}
           {{- end }}
           {{- if .Values.api.env}}
-          {{- toYaml .Values.api.env | nindent 10 }}
+          {{- range $i, $val := .Values.api.env }}
+          - name: {{- $val.name }}
+            {{ printf "value: %s" ($val.value | quote)}}
+          {{- end }}
           {{- end }}
         {{- with .Values.api.envFrom }}
         envFrom:

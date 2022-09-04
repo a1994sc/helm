@@ -34,12 +34,18 @@ spec:
         - start-web
         env:
           - name: PORT
-            value: {{ .Values.sync.port }}
+            {{ printf "value: %s" (.Values.sync.port | quote)}}
           {{- if .Values.global.env}}
-          {{- toYaml .Values.global.env | nindent 10 }}
+          {{- range $i, $val := .Values.global.env }}
+          - name: {{ $val.name }}
+            {{ printf "value: %s" ($val.value | quote)}}
+          {{- end }}
           {{- end }}
           {{- if .Values.sync.env}}
-          {{- toYaml .Values.sync.env | nindent 10 }}
+          {{- range $i, $val := .Values.sync.env }}
+          - name: {{- $val.name }}
+            {{ printf "value: %s" ($val.value | quote)}}
+          {{- end }}
           {{- end }}
         {{- with .Values.sync.envFrom }}
         envFrom:

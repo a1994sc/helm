@@ -33,14 +33,20 @@ spec:
         - start-worker
         env:
           - name: PORT
-            value: {{ .Values.auth.port }}
+            {{ printf "value: %s" (.Values.auth.port | quote)}}
           - name: AUTH_SERVER_URL
-            value: {{ printf "http://%s:%d" (printf "%s-%s" (include "standardnotes.name" .) .Values.auth.name | trunc 63 | trimSuffix "-") (.Values.auth.port | int) }}
+            {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.name" .) .Values.auth.name | trunc 63 | trimSuffix "-") (.Values.auth.port | int) }}
           {{- if .Values.global.env}}
-          {{- toYaml .Values.global.env | nindent 10 }}
+          {{- range $i, $val := .Values.global.env }}
+          - name: {{ $val.name }}
+            {{ printf "value: %s" ($val.value | quote)}}
+          {{- end }}
           {{- end }}
           {{- if .Values.auth.env}}
-          {{- toYaml .Values.auth.env | nindent 10 }}
+          {{- range $i, $val := .Values.auth.env }}
+          - name: {{- $val.name }}
+            {{ printf "value: %s" ($val.value | quote)}}
+          {{- end }}
           {{- end }}
         {{- with .Values.auth.envFrom }}
         envFrom:

@@ -34,12 +34,18 @@ spec:
         - start-web
         env:
           - name: PORT
-            value: {{ .Values.auth.port }}
+            {{ printf "value: %s" (.Values.auth.port | quote)}}
           {{- if .Values.global.env}}
-          {{- toYaml .Values.global.env | nindent 10 }}
+          {{- range $i, $val := .Values.global.env }}
+          - name: {{ $val.name }}
+            {{ printf "value: %s" ($val.value | quote)}}
+          {{- end }}
           {{- end }}
           {{- if .Values.auth.env}}
-          {{- toYaml .Values.auth.env | nindent 10 }}
+          {{- range $i, $val := .Values.auth.env }}
+          - name: {{- $val.name }}
+            {{ printf "value: %s" ($val.value | quote)}}
+          {{- end }}
           {{- end }}
         {{- with .Values.auth.envFrom }}
         envFrom:
