@@ -3,9 +3,9 @@ entries:
   standardnotes:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-09-03T20:29:20.367263-04:00"
+    created: "2022-09-03T20:32:13.497585-04:00"
     description: A Helm chart for Kubernetes
-    digest: f3a763fe3e9ec6134c7f419994dd20aa0d4a31a0daa991539d8cffdccbca00d5
+    digest: 2f8612dfe30aca189ffd3b787efef7e1339c2c3e0604de9c15fd6918047e7e45
     name: standardnotes
     type: application
     urls:
@@ -13,7 +13,7 @@ entries:
     version: 0.2.5
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-09-03T20:29:20.3624718-04:00"
+    created: "2022-09-03T20:32:13.4925929-04:00"
     description: A Helm chart for Kubernetes
     digest: 7abc114aab57a2ea6bcd3627576f5455e3faf8171dc8e38c33dbb670f547df05
     name: standardnotes
@@ -23,7 +23,7 @@ entries:
     version: 0.2.4
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-09-03T20:29:20.3576437-04:00"
+    created: "2022-09-03T20:32:13.4875799-04:00"
     description: A Helm chart for Kubernetes
     digest: 4d74fe7112128866281c95281427a23c46ae31922bf7efc22549dfb688cd0961
     name: standardnotes
@@ -33,7 +33,7 @@ entries:
     version: 0.2.3
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-09-03T20:29:20.3524152-04:00"
+    created: "2022-09-03T20:32:13.4823347-04:00"
     description: A Helm chart for Kubernetes
     digest: 3562f546ddaa549845b3841b1fb4c6c784a92b5b4bcb2a53f51fe004a4701cad
     name: standardnotes
@@ -43,7 +43,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-09-03T20:29:20.3474491-04:00"
+    created: "2022-09-03T20:32:13.4772598-04:00"
     description: A Helm chart for Kubernetes
     digest: 1d86b07ca474bfdb5539a11deb55257fffff412f8e5c511bec6d09944093873c
     name: standardnotes
@@ -53,7 +53,7 @@ entries:
     version: 0.2.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-09-03T20:29:20.3414416-04:00"
+    created: "2022-09-03T20:32:13.4719082-04:00"
     description: A Helm chart for Kubernetes
     digest: d525020ebeeeddecbed2e06e6d0c8ad760ba6777ba2c2ddf4dd97fa8b34c7031
     name: standardnotes
@@ -63,7 +63,7 @@ entries:
     version: 0.2.0
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-09-03T20:29:20.3339368-04:00"
+    created: "2022-09-03T20:32:13.4650898-04:00"
     description: A Helm chart for Kubernetes
     digest: df4c890a8bb6c0e04efa47c4142cf8cc877362336e6ddd72c68f278220659a28
     name: standardnotes
@@ -71,4 +71,4 @@ entries:
     urls:
     - https://a1994sc.github.io/helm-repo/standardnotes-0.1.0.tgz
     version: 0.1.0
-generated: "2022-09-03T20:29:20.3281172-04:00"
+generated: "2022-09-03T20:32:13.4585771-04:00"

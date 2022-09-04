@@ -7,7 +7,6 @@ metadata:
   labels:
     {{- include "standardnotes.labels" . | nindent 4 }}
 spec:
-  serviceAccountName: {{ include "standardnotes.serviceAccountName" . }}
   replicas: {{ default 1 .Values.sync.replicaCount }}
   selector:
     matchLabels:
