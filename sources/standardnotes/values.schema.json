@@ -34,6 +34,9 @@
                 "port": {
                     "type": "integer"
                 },
+                "redisChannel": {
+                    "type": "string"
+                },
                 "replicaCount": {
                     "type": "integer"
                 },
@@ -53,15 +56,6 @@
                     "properties": {
                         "enabled": {
                             "type": "boolean"
-                        },
-                        "maxReplicas": {
-                            "type": "integer"
-                        },
-                        "minReplicas": {
-                            "type": "integer"
-                        },
-                        "targetCPUUtilizationPercentage": {
-                            "type": "integer"
                         }
                     }
                 },
@@ -90,6 +84,9 @@
                 },
                 "port": {
                     "type": "integer"
+                },
+                "redisChannel": {
+                    "type": "string"
                 },
                 "replicaCount": {
                     "type": "integer"
@@ -244,15 +241,6 @@
                     "properties": {
                         "enabled": {
                             "type": "boolean"
-                        },
-                        "maxReplicas": {
-                            "type": "integer"
-                        },
-                        "minReplicas": {
-                            "type": "integer"
-                        },
-                        "targetCPUUtilizationPercentage": {
-                            "type": "integer"
                         }
                     }
                 },
@@ -281,6 +269,9 @@
                 },
                 "port": {
                     "type": "integer"
+                },
+                "redisChannel": {
+                    "type": "string"
                 },
                 "replicaCount": {
                     "type": "integer"

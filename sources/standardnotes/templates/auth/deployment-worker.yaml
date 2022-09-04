@@ -36,6 +36,8 @@ spec:
             {{ printf "value: %s" (.Values.auth.port | quote)}}
           - name: AUTH_SERVER_URL
             {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.name" .) .Values.auth.name | trunc 63 | trimSuffix "-") (.Values.auth.port | int) }}
+          - name: REDIS_EVENTS_CHANNEL
+            {{ printf "value: %s" (.Values.auth.redisChannel | quote)}}
           {{- if .Values.global.env}}
           {{- range $i, $val := .Values.global.env }}
           - name: {{ $val.name }}

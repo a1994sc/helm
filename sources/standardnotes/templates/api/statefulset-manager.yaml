@@ -39,6 +39,8 @@ spec:
             {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.name" .) .Values.auth.name | trunc 63 | trimSuffix "-") (.Values.auth.port | int) }}
           - name: SYNCING_SERVER_JS_URL
             {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.name" .) .Values.sync.name | trunc 63 | trimSuffix "-") (.Values.sync.port | int) }}
+          - name: REDIS_EVENTS_CHANNEL
+            {{ printf "value: %s" (.Values.api.redisChannel | quote)}}
           {{- if .Values.global.env}}
           {{- range $i, $val := .Values.global.env }}
           - name: {{ $val.name }}

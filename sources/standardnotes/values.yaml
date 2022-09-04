@@ -68,6 +68,7 @@ api:
     # requests:
     #   cpu: "25m"
     #   memory: "32Mi"
+  redisChannel: "api-gateway-events"
   env: []
   # - name: AUTH_JWT_SECRET
   #   value: ""
@@ -85,7 +86,7 @@ auth:
     pullPolicy: Always
   name: "auth"
   replicaCount: 1
-  workerReplicaCount: 1
+  workerReplicaCount: 2
 #  selectorManagerID: "auth-man"
 #  selectorWorkerID: "auth-work"
   port: 3000
@@ -96,6 +97,7 @@ auth:
     # requests:
     #   cpu: "25m"
     #   memory: "32Mi"
+  redisChannel: "auth-events"
   env: []
   # - name: AUTH_JWT_SECRET
   #   value: ""
@@ -105,11 +107,11 @@ auth:
   # - secretRef:
   #     name: example-secret
   autoscaling:
-    enabled: true
-    minReplicas: 2
-    maxReplicas: 100
+    enabled: false
+    # minReplicas: 2
+    # maxReplicas: 100
     # targetMemoryUtilizationPercentage: 80
-    targetCPUUtilizationPercentage: 80
+    # targetCPUUtilizationPercentage: 80
 
 sync:
   image:
@@ -118,7 +120,7 @@ sync:
     pullPolicy: Always
   name: "sync"
   replicaCount: 1
-  workerReplicaCount: 1
+  workerReplicaCount: 2
 #  selectorManagerID: "sync-man"
 #  selectorWorkerID: "sync-work"
   port: 3000
@@ -129,6 +131,7 @@ sync:
     # requests:
     #   cpu: "25m"
     #   memory: "32Mi"
+  redisChannel: "auth-events"
   env: []
   # - name: AUTH_JWT_SECRET
   #   value: ""
@@ -138,11 +141,11 @@ sync:
   # - secretRef:
   #     name: example-secret
   autoscaling:
-    enabled: true
-    minReplicas: 2
-    maxReplicas: 100
+    enabled: false
+    # minReplicas: 2
+    # maxReplicas: 100
     # targetMemoryUtilizationPercentage: 80
-    targetCPUUtilizationPercentage: 80
+    # targetCPUUtilizationPercentage: 80
 
 redis:
   enabled: false
