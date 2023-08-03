@@ -2,7 +2,7 @@ apiVersion: v2
 name: standardnotes
 description: A Helm chart for self-hosting Standard Notes server.
 type: application
-version: 0.4.2
+version: 0.4.1
 sources:
 - https://github.com/standardnotes/standalone
 home: "https://github.com/A1994SC/helm"

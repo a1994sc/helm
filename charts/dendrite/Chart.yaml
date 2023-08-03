@@ -3,7 +3,7 @@ apiVersion: v2
 appVersion: v0.10.7
 description: Dendrite Matrix Homeserver
 name: dendrite
-version: 9.1.0
+version: 9.1.1
 kubeVersion: ">=1.20.0-0"
 deprecated: true
 keywords:
