@@ -1,0 +1,12 @@
+---
+extends: default
+
+rules:
+  document-start: disable
+  line-length: disable
+  indentation:
+    spaces: 2
+    indent-sequences: false
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 0
