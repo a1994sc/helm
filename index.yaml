@@ -3,7 +3,7 @@ entries:
   dendrite:
   - apiVersion: v2
     appVersion: v0.10.7
-    created: "2023-08-03T23:41:58.240571183Z"
+    created: "2023-08-03T23:42:03.172086242Z"
     dependencies:
     - name: common
       repository: https://bjw-s.github.io/helm-charts/
@@ -54,7 +54,7 @@ entries:
       version: 0.2.2
     deprecated: true
     description: Dendrite Matrix Homeserver
-    digest: b930aabe6698c16e8d256e8e4f82eab78bfba459c7028e3b356be14bdc855ab4
+    digest: 9c44bbaa887297621e2fce88f0d570515a2c7ca1fd874633d78b79a4268663cc
     home: https://github.com/a1994sc/helm/tree/main/charts/dendrite
     keywords:
     - dendrite
@@ -69,7 +69,7 @@ entries:
     - https://github.com/matrix-org/dendrite
     - https://github.com/matrix-org/dendrite/tree/master/build/docker
     urls:
-    - https://github.com/A1994SC/helm/releases/download/dendrite-9.1.1/dendrite-9.1.1.tgz
+    - https://a1994sc.github.io/helm/dendrite-9.1.1.tgz
     version: 9.1.1
   - apiVersion: v2
     appVersion: v0.10.7
@@ -161,13 +161,21 @@ entries:
     - https://a1994sc.github.io/helm/standardnotes-0.4.2.tgz
     version: 0.4.2
   - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2022-09-04T04:08:11.541687647Z"
-    description: A Helm chart for Kubernetes
-    digest: 06cf6859840f848ee46c07f87215de2a83b0e41cbfd69c95fe0e659e5cdc084b
+    created: "2023-08-03T23:42:03.173854654Z"
+    description: A Helm chart for self-hosting Standard Notes server.
+    digest: bea9c31b6d604522f789aefbb57f1006ddd35f8cc6a7450a845ca9671b92f80f
+    home: https://github.com/A1994SC/helm
+    icon: https://standardnotes.com/app-icon-blue.png
+    keywords:
+    - encrypted notes
+    maintainers:
+    - email: github@conlon.dev
+      name: Allen Conlon
     name: standardnotes
+    sources:
+    - https://github.com/standardnotes/standalone
     type: application
     urls:
     - https://a1994sc.github.io/helm/standardnotes-0.4.1.tgz
     version: 0.4.1
-generated: "2023-08-03T23:41:58.417841759Z"
+generated: "2023-08-03T23:42:03.164144389Z"
