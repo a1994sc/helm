@@ -3,6 +3,76 @@ entries:
   dendrite:
   - apiVersion: v2
     appVersion: v0.10.7
+    created: "2023-08-03T23:41:58.240571183Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s.github.io/helm-charts/
+      version: 0.2.2
+    - condition: nats.enabled
+      name: nats
+      repository: https://nats-io.github.io/k8s/helm/charts/
+      version: 0.18.2
+    - alias: clientapi
+      condition: dendrite.polylithEnabled
+      name: common
+      repository: https://bjw-s.github.io/helm-charts/
+      version: 0.2.2
+    - alias: mediaapi
+      condition: dendrite.polylithEnabled
+      name: common
+      repository: https://bjw-s.github.io/helm-charts/
+      version: 0.2.2
+    - alias: syncapi
+      condition: dendrite.polylithEnabled
+      name: common
+      repository: https://bjw-s.github.io/helm-charts/
+      version: 0.2.2
+    - alias: roomserver
+      condition: dendrite.polylithEnabled
+      name: common
+      repository: https://bjw-s.github.io/helm-charts/
+      version: 0.2.2
+    - alias: federationapi
+      condition: dendrite.polylithEnabled
+      name: common
+      repository: https://bjw-s.github.io/helm-charts/
+      version: 0.2.2
+    - alias: keyserver
+      condition: dendrite.polylithEnabled
+      name: common
+      repository: https://bjw-s.github.io/helm-charts/
+      version: 0.2.2
+    - alias: userapi
+      condition: dendrite.polylithEnabled
+      name: common
+      repository: https://bjw-s.github.io/helm-charts/
+      version: 0.2.2
+    - alias: appserviceapi
+      condition: dendrite.polylithEnabled
+      name: common
+      repository: https://bjw-s.github.io/helm-charts/
+      version: 0.2.2
+    deprecated: true
+    description: Dendrite Matrix Homeserver
+    digest: b930aabe6698c16e8d256e8e4f82eab78bfba459c7028e3b356be14bdc855ab4
+    home: https://github.com/a1994sc/helm/tree/main/charts/dendrite
+    keywords:
+    - dendrite
+    - matrix
+    - homeserver
+    - monolith
+    - federation
+    - polylith
+    kubeVersion: '>=1.20.0-0'
+    name: dendrite
+    sources:
+    - https://github.com/matrix-org/dendrite
+    - https://github.com/matrix-org/dendrite/tree/master/build/docker
+    urls:
+    - https://github.com/A1994SC/helm/releases/download/dendrite-9.1.1/dendrite-9.1.1.tgz
+    version: 9.1.1
+  - apiVersion: v2
+    appVersion: v0.10.7
     created: "2022-12-05T22:29:05.379993462Z"
     dependencies:
     - name: common
@@ -100,4 +170,4 @@ entries:
     urls:
     - https://a1994sc.github.io/helm/standardnotes-0.4.1.tgz
     version: 0.4.1
-generated: "2022-12-05T22:29:05.373328732Z"
+generated: "2023-08-03T23:41:58.417841759Z"
