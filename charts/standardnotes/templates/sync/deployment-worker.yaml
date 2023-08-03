@@ -2,79 +2,79 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: {{ printf "%s-%s" (include "standardnotes.fullname" .) .Values.sync.name | trunc 63 | trimSuffix "-" }}
-  namespace: {{ .Release.Namespace }}
+  name: {{printf "%s-%s" (include "standardnotes.fullname" .) .Values.sync.name | trunc 63 | trimSuffix "-"}}
+  namespace: {{.Release.Namespace}}
   labels:
-    {{- include "standardnotes.labels" . | nindent 4 }}
+  {{- include "standardnotes.labels" . | nindent 4}}
 spec:
-  {{- if not .Values.sync.autoscaling.enabled }}
-  replicas: {{ .Values.sync.workerReplicaCount }}
-  {{- end }}
+  {{- if not .Values.sync.autoscaling.enabled}}
+  replicas: {{.Values.sync.workerReplicaCount}}
+  {{- end}}
   selector:
     matchLabels:
-      {{- include "standardnotes.syncWorkerSelectorLabels" . | nindent 6 }}
+      {{- include "standardnotes.syncWorkerSelectorLabels" . | nindent 6}}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with .Values.podAnnotations}}
       annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- toYaml . | nindent 8}}
+      {{- end}}
       labels:
-        {{- include "standardnotes.syncWorkerSelectorLabels" . | nindent 8 }}
+        {{- include "standardnotes.syncWorkerSelectorLabels" . | nindent 8}}
     spec:
-      serviceAccountName: {{ include "standardnotes.serviceAccountName" . }}
+      serviceAccountName: {{include "standardnotes.serviceAccountName" .}}
       containers:
-      - name: {{ printf "%s" .Values.sync.name | trunc 63 | trimSuffix "-" }}
-        image: {{ printf "%s:%s" .Values.sync.image.repository (default "latest" .Values.sync.image.tag) | quote}}
-        imagePullPolicy: {{ .Values.sync.image.pullPolicy }}
+      - name: {{printf "%s" .Values.sync.name | trunc 63 | trimSuffix "-"}}
+        image: {{printf "%s:%s" .Values.sync.image.repository (default "latest" .Values.sync.image.tag) | quote}}
+        imagePullPolicy: {{.Values.sync.image.pullPolicy}}
         command:
         - ./docker/entrypoint.sh
         args:
         - start-worker
         env:
           - name: PORT
-            {{ printf "value: %s" (.Values.sync.port | quote)}}
+            {{printf "value: %s" (.Values.sync.port | quote)}}
           - name: SYNCING_SERVER_JS_URL
-            {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.fullname" .) .Values.sync.name | trunc 63 | trimSuffix "-") (.Values.sync.port | int) }}
+            {{printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.fullname" .) .Values.sync.name | trunc 63 | trimSuffix "-") (.Values.sync.port | int)}}
           - name: FILES_SERVER_URL
-            {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.fullname" .) .Values.file.name | trunc 63 | trimSuffix "-") (.Values.file.port | int) }}
+            {{printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.fullname" .) .Values.file.name | trunc 63 | trimSuffix "-") (.Values.file.port | int)}}
           - name: REDIS_EVENTS_CHANNEL
-            {{ printf "value: %s" (.Values.sync.redisChannel | quote)}}
+            {{printf "value: %s" (.Values.sync.redisChannel | quote)}}
           {{- if .Values.global.env}}
-          {{- range $i, $val := .Values.global.env }}
-          - name: {{ $val.name }}
-            {{ printf "value: %s" ($val.value | quote)}}
-          {{- end }}
-          {{- end }}
+          {{- range $i, $val := .Values.global.env}}
+          - name: {{$val.name}}
+            {{printf "value: %s" ($val.value | quote)}}
+          {{- end}}
+          {{- end}}
           {{- if .Values.sync.env}}
-          {{- range $i, $val := .Values.sync.env }}
-          - name: {{- $val.name }}
-            {{ printf "value: %s" ($val.value | quote)}}
-          {{- end }}
-          {{- end }}
-        {{- with .Values.sync.envFrom }}
+          {{- range $i, $val := .Values.sync.env}}
+          - name: {{- $val.name}}
+            {{printf "value: %s" ($val.value | quote)}}
+          {{- end}}
+          {{- end}}
+        {{- with .Values.sync.envFrom}}
         envFrom:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
-        {{- with (default .Values.global.livenessProbe .Values.sync.livenessProbe) }}
+          {{- toYaml . | nindent 10}}
+        {{- end}}
+        {{- with (default .Values.global.livenessProbe .Values.sync.livenessProbe)}}
         livenessProbe:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
-        {{- with (default .Values.global.resources .Values.sync.resources) }}
+          {{- toYaml . | nindent 10}}
+        {{- end}}
+        {{- with (default .Values.global.resources .Values.sync.resources)}}
         resources:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
+          {{- toYaml . | nindent 10}}
+        {{- end}}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
-      {{- with .Values.global.nodeSelector }}
+      {{- with .Values.global.nodeSelector}}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.global.affinity }}
+        {{- toYaml . | nindent 8}}
+      {{- end}}
+      {{- with .Values.global.affinity}}
       affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.global.tolerations }}
+        {{- toYaml . | nindent 8}}
+      {{- end}}
+      {{- with .Values.global.tolerations}}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- toYaml . | nindent 8}}
+      {{- end}}

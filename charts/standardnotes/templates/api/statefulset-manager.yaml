@@ -2,82 +2,82 @@
 kind: StatefulSet
 apiVersion: apps/v1
 metadata:
-  name: {{ printf "%s-%s" (include "standardnotes.fullname" .) .Values.api.name | trunc 63 | trimSuffix "-" }}
-  namespace: {{ .Release.Namespace }}
+  name: {{printf "%s-%s" (include "standardnotes.fullname" .) .Values.api.name | trunc 63 | trimSuffix "-"}}
+  namespace: {{.Release.Namespace}}
   labels:
-    {{- include "standardnotes.labels" . | nindent 4 }}
+    {{- include "standardnotes.labels" . | nindent 4}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "standardnotes.apiSelectorLabels" . | nindent 6 }}
-  serviceName: {{ printf "%s-%s" (include "standardnotes.fullname" .) .Values.api.name | trunc 63 | trimSuffix "-" }}
-  minReadySeconds: {{ default .Values.global.minReadySeconds .Values.api.minReadySeconds }}
+      {{- include "standardnotes.apiSelectorLabels" . | nindent 6}}
+  serviceName: {{printf "%s-%s" (include "standardnotes.fullname" .) .Values.api.name | trunc 63 | trimSuffix "-"}}
+  minReadySeconds: {{default .Values.global.minReadySeconds .Values.api.minReadySeconds}}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with .Values.podAnnotations}}
       annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- toYaml . | nindent 8}}
+      {{- end}}
       labels:
-        {{- include "standardnotes.apiSelectorLabels" . | nindent 8 }}
+        {{- include "standardnotes.apiSelectorLabels" . | nindent 8}}
     spec:
-      serviceAccountName: {{ include "standardnotes.serviceAccountName" . }}
+      serviceAccountName: {{include "standardnotes.serviceAccountName" .}}
       terminationGracePeriodSeconds: 10
       containers:
-      - name: {{ printf "%s" .Values.api.name | trunc 63 | trimSuffix "-" }}
-        image: {{ printf "%s:%s" .Values.api.image.repository (default "latest" .Values.api.image.tag) | quote}}
-        imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+      - name: {{printf "%s" .Values.api.name | trunc 63 | trimSuffix "-"}}
+        image: {{printf "%s:%s" .Values.api.image.repository (default "latest" .Values.api.image.tag) | quote}}
+        imagePullPolicy: {{.Values.api.image.pullPolicy}}
         command:
         - ./docker/entrypoint.sh
         args:
         - start-web
         env:
           - name: PORT
-            {{ printf "value: %s" (.Values.api.port | quote)}}
+            {{printf "value: %s" (.Values.api.port | quote)}}
           - name: AUTH_SERVER_URL
-            {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.fullname" .) .Values.auth.name | trunc 63 | trimSuffix "-") (.Values.auth.port | int) }}
+            {{printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.fullname" .) .Values.auth.name | trunc 63 | trimSuffix "-") (.Values.auth.port | int)}}
           - name: SYNCING_SERVER_JS_URL
-            {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.fullname" .) .Values.sync.name | trunc 63 | trimSuffix "-") (.Values.sync.port | int) }}
+            {{printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.fullname" .) .Values.sync.name | trunc 63 | trimSuffix "-") (.Values.sync.port | int)}}
           - name: FILES_SERVER_URL
-            {{ printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.fullname" .) .Values.file.name | trunc 63 | trimSuffix "-") (.Values.file.port | int) }}
+            {{printf "value: \"http://%s:%d\"" (printf "%s-%s" (include "standardnotes.fullname" .) .Values.file.name | trunc 63 | trimSuffix "-") (.Values.file.port | int)}}
           - name: REDIS_EVENTS_CHANNEL
-            {{ printf "value: %s" (.Values.api.redisChannel | quote)}}
+            {{printf "value: %s" (.Values.api.redisChannel | quote)}}
           {{- if .Values.global.env}}
-          {{- range $i, $val := .Values.global.env }}
-          - name: {{ $val.name }}
-            {{ printf "value: %s" ($val.value | quote)}}
-          {{- end }}
-          {{- end }}
+          {{- range $i, $val := .Values.global.env}}
+          - name: {{$val.name}}
+            {{printf "value: %s" ($val.value | quote)}}
+          {{- end}}
+          {{- end}}
           {{- if .Values.api.env}}
-          {{- range $i, $val := .Values.api.env }}
-          - name: {{- $val.name }}
-            {{ printf "value: %s" ($val.value | quote)}}
-          {{- end }}
-          {{- end }}
-        {{- with .Values.api.envFrom }}
+          {{- range $i, $val := .Values.api.env}}
+          - name: {{- $val.name}}
+            {{printf "value: %s" ($val.value | quote)}}
+          {{- end}}
+          {{- end}}
+        {{- with .Values.api.envFrom}}
         envFrom:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
-        {{- with (default .Values.global.livenessProbe .Values.api.livenessProbe) }}
+          {{- toYaml . | nindent 10}}
+        {{- end}}
+        {{- with (default .Values.global.livenessProbe .Values.api.livenessProbe)}}
         livenessProbe:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
-        {{- with (default .Values.global.resources .Values.api.resources) }}
+          {{- toYaml . | nindent 10}}
+        {{- end}}
+        {{- with (default .Values.global.resources .Values.api.resources)}}
         resources:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
+          {{- toYaml . | nindent 10}}
+        {{- end}}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
-      {{- with .Values.global.nodeSelector }}
+      {{- with .Values.global.nodeSelector}}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.global.affinity }}
+        {{- toYaml . | nindent 8}}
+      {{- end}}
+      {{- with .Values.global.affinity}}
       affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.global.tolerations }}
+        {{- toYaml . | nindent 8}}
+      {{- end}}
+      {{- with .Values.global.tolerations}}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- toYaml . | nindent 8}}
+      {{- end}}

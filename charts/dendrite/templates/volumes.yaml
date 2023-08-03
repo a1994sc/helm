@@ -1,25 +1,25 @@
 {{- define "dendrite.keyVolume" -}}
-enabled: {{ .Values.dendrite.matrix_key_secret.enabled }}
+enabled: {{.Values.dendrite.matrix_key_secret.enabled}}
 type: "custom"
 volumeSpec:
   secret:
     defaultMode: 0600
-    secretName: {{ include "dendrite.names.key" . }}
+    secretName: {{include "dendrite.names.key" .}}
 subPath:
-  - path: {{ .Values.dendrite.matrix_key_secret.secretPath }}
+  - path: {{.Values.dendrite.matrix_key_secret.secretPath}}
     mountPath: "/etc/dendrite/matrix_key.pem"
 {{- end -}}
 {{- define "dendrite.tlsVolume" -}}
-enabled: {{ .Values.dendrite.tls_secret.enabled }}
+enabled: {{.Values.dendrite.tls_secret.enabled}}
 type: "custom"
 volumeSpec:
   secret:
     defaultMode: 0600
-    secretName: {{ .Values.dendrite.tls_secret.existingSecret }}
+    secretName: {{.Values.dendrite.tls_secret.existingSecret}}
 subPath:
-  - path: {{ .Values.dendrite.tls_secret.crtPath }}
+  - path: {{.Values.dendrite.tls_secret.crtPath}}
     mountPath: "/etc/dendrite/server.crt"
-  - path: {{ .Values.dendrite.tls_secret.keyPath }}
+  - path: {{.Values.dendrite.tls_secret.keyPath}}
     mountPath: "/etc/dendrite/server.key"
 {{- end -}}
 {{- define "dendrite.configVolume" -}}
@@ -28,7 +28,7 @@ type: "custom"
 volumeSpec:
   secret:
     defaultMode: 0600
-    secretName: {{ include "common.names.fullname" . }}-config
+    secretName: {{include "common.names.fullname" .}}-config
 subPath:
   - path: dendrite.yaml
     mountPath: "/etc/dendrite/dendrite.yaml"

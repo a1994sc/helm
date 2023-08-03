@@ -154,8 +154,8 @@ clientapi:
     sso:
       enabled: false
       providers:
-        - id: id.example.org
-          type: oidc
+      - id: id.example.org
+        type: oidc
   image:
     # -- image repository
     repository: matrixdotorg/dendrite-polylith
@@ -254,12 +254,12 @@ federationapi:
       host: localhost
       port: 8080
     key_perspectives:
-      - server_name: matrix.org
-        keys:
-          - key_id: ed25519:auto
-            public_key: Noi6WqcDj0QmPxCNQqgezwTlBKrfqehY1u2FyWP9uYw
-          - key_id: ed25519:a_RXGa
-            public_key: l8Hft5qXKn1vfHrg3p4+W8gELQVo8N13JkluMfmn2sQ
+    - server_name: matrix.org
+      keys:
+      - key_id: ed25519:auto
+        public_key: Noi6WqcDj0QmPxCNQqgezwTlBKrfqehY1u2FyWP9uYw
+      - key_id: ed25519:a_RXGa
+        public_key: l8Hft5qXKn1vfHrg3p4+W8gELQVo8N13JkluMfmn2sQ
     prefer_direct_fetch: false
 
 # -- Configure the User API
@@ -425,15 +425,15 @@ mediaapi:
     dynamic_thumbnails: false
     max_thumbnail_generators: 10
     thumbnail_sizes:
-      - width: 32
-        height: 32
-        method: crop
-      - width: 96
-        height: 96
-        method: crop
-      - width: 640
-        height: 480
-        method: scale
+    - width: 32
+      height: 32
+      method: crop
+    - width: 96
+      height: 96
+      method: crop
+    - width: 640
+      height: 480
+      method: scale
 
 # -- Configuration for experimental MSCs
 # For more information see [the sample dendrite configuration](https://github.com/matrix-org/dendrite/blob/main/dendrite-sample.polylith.yaml)
@@ -530,8 +530,8 @@ dendrite:
     well_known_client_name: ""
     # -- Configure the list of domains the server will trust as identity servers
     trusted_third_party_id_servers:
-      - matrix.org
-      - vector.im
+    - matrix.org
+    - vector.im
     # -- Disables federation
     disable_federation: false
     # -- Configure handling of presence events
@@ -590,10 +590,10 @@ dendrite:
   # -- Configure logging.
   # @default -- See values.yaml
   logging:
-    - type: file
-      level: info
-      params:
-        path: /var/log/dendrite
+  - type: file
+    level: info
+    params:
+      path: /var/log/dendrite
 
 nats:
   external:

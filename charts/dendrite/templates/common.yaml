@@ -1,31 +1,31 @@
-{{- if .Values.dendrite.polylithEnabled }}
-  {{ $components := list "clientapi" "appserviceapi" "federationapi" "userapi" "keyserver" "mediaapi" "syncapi" "roomserver" }}
-  {{- range $components }}
-    {{- include "common.values.setup" (index $.Subcharts .) }}
-    {{- with (index $.Values .) }}
-      {{- with .image }}
+{{- if .Values.dendrite.polylithEnabled}}
+  {{$components := list "clientapi" "appserviceapi" "federationapi" "userapi" "keyserver" "mediaapi" "syncapi" "roomserver"}}
+  {{- range $components}}
+    {{- include "common.values.setup" (index $.Subcharts .)}}
+    {{- with (index $.Values .)}}
+      {{- with .image}}
         {{- $_ := set . "tag" (default $.Chart.AppVersion .tag) -}}
       {{- end -}}
-      {{- if not .persistence }}
+      {{- if not .persistence}}
         {{- $_ := set . "persistence" (dict)}}
-      {{- end }}
+      {{- end}}
       {{- $_ := set .persistence "dendrite-key" (include "dendrite.keyVolume" $ | fromYaml) -}}
       {{- $_ := set .persistence "dendrite-config" (include "dendrite.configVolume" $ | fromYaml) -}}
       {{- $_ := set .persistence "dendrite-tls" (include "dendrite.tlsVolume" $ | fromYaml) -}}
       {{- $_ := set .persistence "jetstream" $.Values.persistence.jetstream -}}
-    {{- end }}
-    {{- include "common.all" (index $.Subcharts .) }}
-  {{- end }}
-  {{- with (index $.Values "mediaapi") }}
+    {{- end}}
+    {{- include "common.all" (index $.Subcharts .)}}
+  {{- end}}
+  {{- with (index $.Values "mediaapi")}}
     {{- $_ := set .persistence "media" $.Values.persistence.media -}}
-  {{- end }}
-{{- else }}
-  {{ include "common.values.setup" . }}
+  {{- end}}
+{{- else}}
+  {{include "common.values.setup" .}}
   {{- $_ := set .Values.persistence "dendrite-key" (include "dendrite.keyVolume" . | fromYaml) -}}
   {{- $_ := set .Values.persistence "dendrite-config" (include "dendrite.configVolume" . | fromYaml) -}}
   {{- $_ := set .Values.persistence "dendrite-tls" (include "dendrite.tlsVolume" . | fromYaml) -}}
-  {{ include "common.all" . }}
-{{- end }}
+  {{include "common.all" .}}
+{{- end}}
 {{- define "dendrite.hardcodedValues" -}}
 probes:
   liveness:
@@ -38,11 +38,11 @@ probes:
       failureThreshold: 10
       httpGet:
         path: /_dendrite/monitor/health
-        {{- if .Values.dendrite.polylithEnabled }}
+        {{- if .Values.dendrite.polylithEnabled}}
         port: internal
-        {{ else }}
+        {{else}}
         port: http
-        {{ end }}
+        {{end}}
   readiness:
     enabled: true
     custom: true
@@ -53,11 +53,11 @@ probes:
       failureThreshold: 10
       httpGet:
         path: /_dendrite/monitor/health
-        {{- if .Values.dendrite.polylithEnabled }}
+        {{- if .Values.dendrite.polylithEnabled}}
         port: internal
-        {{ else }}
+        {{else}}
         port: http
-        {{ end }}
+        {{end}}
   startup:
     enabled: true
     custom: true
@@ -68,10 +68,10 @@ probes:
       failureThreshold: 10
       httpGet:
         path: /_dendrite/monitor/up
-        {{- if .Values.dendrite.polylithEnabled }}
+        {{- if .Values.dendrite.polylithEnabled}}
         port: internal
-        {{ else }}
+        {{else}}
         port: http
-        {{ end }}
+        {{end}}
 {{- end -}}
 {{- $_ := mergeOverwrite .Values (include "dendrite.hardcodedValues" . | fromYaml) -}}
