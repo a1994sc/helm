@@ -12,8 +12,11 @@ jobs:
       matrix: ${{ steps.matrix.outputs.value }}
     steps:
       - id: matrix
+        env:
+          CHARTS_DIR: charts
         run: |
-          echo '::set-output name=value::["a", "b", "c"]'
+          array=($(ls -d ${CHARTS_DIR}/*))
+          echo '::set-output name=value::['$(printf '"%s" ' "${array[@]}")']'
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
