@@ -1,0 +1,17 @@
+{{- $pkg := .Values.package -}}
+{{- if (dig "namespace" "create" true $pkg) -}}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ default $pkg.name $pkg.namespace.name }}
+  labels:
+    app.kubernetes.io/name: {{ $pkg.name }}
+    {{- if (dig "namespace" "labels" nil $pkg) -}}
+    {{- toYaml $pkg.namespace.labels | nindent 4 -}}
+    {{- end -}}
+  {{- if (dig "namespace" "annotations" nil $pkg) }}
+  annotations:
+    {{- toYaml $pkg.namespace.annotations | nindent 4 -}}
+  {{- end }}
+{{ end -}}

@@ -1,0 +1,14 @@
+# Misc
+*.swp
+*.tmp
+*.tmp.yml
+*.tmp.yaml
+
+# Ansible overides and scratch
+group_vars/localhost.yml
+archive/
+
+# Logs
+*.logs.*
+
+target/
