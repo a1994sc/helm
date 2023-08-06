@@ -21,7 +21,8 @@ jobs:
         CHARTS_DIR: charts
       run: |
         array=($(ls -d ${CHARTS_DIR}/*))
-        echo '::set-output name=value::['$(printf '"%s" ' "${array[@]}")']'
+        echo 'name=value::['$(printf '"%s",' "${array[@]}")']' | sed 's/,]/]/g' >> $GITHUB_OUTPUT
+
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
