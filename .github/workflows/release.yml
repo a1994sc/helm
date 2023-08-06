@@ -11,12 +11,17 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.outputs.value }}
     steps:
-      - id: matrix
-        env:
-          CHARTS_DIR: charts
-        run: |
-          array=($(ls -d ${CHARTS_DIR}/*))
-          echo '::set-output name=value::['$(printf '"%s" ' "${array[@]}")']'
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - id: matrix
+      env:
+        CHARTS_DIR: charts
+      run: |
+        array=($(ls -d ${CHARTS_DIR}/*))
+        echo '::set-output name=value::['$(printf '"%s" ' "${array[@]}")']'
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
