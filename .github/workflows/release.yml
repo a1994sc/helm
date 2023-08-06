@@ -11,8 +11,11 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - id: set-matrix
-        run: echo "matrix={\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" >> $GITHUB_OUTPUT
+    - id: set-matrix
+      env:
+        CHARTS_DIR: charts
+      run: echo "matrix={\"include\":[$(ls -d ${CHARTS_DIR}/* | awk '{printf "%s\"%s\"", sep, $0; sep=","} END{print ""}')]}" >> $GITHUB_OUTPUT
+
   job2:
     needs: job1
     runs-on: ubuntu-latest
