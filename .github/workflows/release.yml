@@ -16,21 +16,32 @@ jobs:
       with:
         fetch-depth: 0
 
-    - id: matrix
-      env:
-        CHARTS_DIR: charts
-      run: |
-        echo 'name=json::{"include":['$(ls -d ${CHARTS_DIR}/* | awk '{printf "%s\"%s\"", sep, $0; sep=","} END{print ""}')']}' >> $GITHUB_OUTPUT
-
+   steps:
+      - id: matrix
+        run: |
+          echo '::set-output name=value::["a", "b", "c"]'
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        value: ${{ fromJson(needs.setup.outputs.matrix.json) }}
-    steps:
-      - run: |
-          echo "${{ matrix.value }}"
+        value: ${{ fromJson(needs.setup.outputs.matrix) }}
+
+  #   - id: matrix
+  #     env:
+  #       CHARTS_DIR: charts
+  #     run: |
+  #       echo 'name=json::{"include":['$(ls -d ${CHARTS_DIR}/* | awk '{printf "%s\"%s\"", sep, $0; sep=","} END{print ""}')']}' >> $GITHUB_OUTPUT
+
+  # build:
+  #   needs: [ setup ]
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       value: ${{ fromJson(needs.setup.outputs.matrix.json) }}
+  #   steps:
+  #     - run: |
+  #         echo "${{ matrix.value }}"
 
   # release:
   #   # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
