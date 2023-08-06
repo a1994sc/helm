@@ -25,12 +25,12 @@ jobs:
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
-    # strategy:
-    #   matrix:
-    #     value: ${{ fromJson(needs.setup.outputs.matrix) }}
+    strategy:
+      matrix:
+        value: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
       - run: |
-          echo "${{ needs.setup.outputs.matrix }}"
+          echo "${{ matrix.value }}"
 
   # release:
   #   # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
