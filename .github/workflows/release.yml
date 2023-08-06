@@ -20,18 +20,17 @@ jobs:
       env:
         CHARTS_DIR: charts
       run: |
-        array=($(ls -d ${CHARTS_DIR}/*))
-        echo 'name=value::['$(printf '"%s",' "${array[@]}")']' | sed 's/,]/]/g' >> $GITHUB_OUTPUT
+        echo 'name=value::{"include":['$(ls -d ${CHARTS_DIR}/* | awk '{printf "%s\"%s\"", sep, $0; sep=","} END{print ""}')']}' >> $GITHUB_OUTPUT
 
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        value: ${{ fromJson(needs.setup.outputs.matrix) }}
+    # strategy:
+    #   matrix:
+    #     value: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
       - run: |
-          echo "${{ matrix.value }}"
+          echo "${{ needs.setup.outputs.matrix }}"
 
   # release:
   #   # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
