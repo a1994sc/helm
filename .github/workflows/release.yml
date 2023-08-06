@@ -19,7 +19,7 @@ jobs:
     - id: set-matrix
       env:
         CHARTS_DIR: charts
-      run: echo "matrix={\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" >> $GITHUB_OUTPUT
+      run: echo "matrix={\"include\":[$(ls -d ${CHARTS_DIR}/* | awk '{printf "%s{\"chart\":\"%s\"}", sep, $0; sep=","} END {print ""}')]}" >> $GITHUB_OUTPUT
 
   job2:
     needs: job1
@@ -28,7 +28,7 @@ jobs:
       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
     steps:
       - run: |
-          echo "${{ matrix.project }}"
+          echo "${{ matrix.chart }}"
 
   #   - id: matrix
   #     env:
