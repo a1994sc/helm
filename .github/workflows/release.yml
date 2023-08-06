@@ -24,6 +24,8 @@ jobs:
   release:
     needs: setup
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     strategy:
       matrix: ${{ fromJSON(needs.setup.outputs.matrix) }}
     steps:
