@@ -17,8 +17,7 @@ jobs:
         fetch-depth: 0
 
     - id: matrix
-      run: |
-        echo 'matrix={"include":["a", "b", "c"]}' >> $GITHUB_OUTPUT
+      run: echo "matrix={\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" >> $GITHUB_OUTPUT
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
