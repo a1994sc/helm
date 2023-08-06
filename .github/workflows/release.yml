@@ -6,7 +6,7 @@ on:
     - main
 
 jobs:
-  job1:
+  setup:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -21,14 +21,39 @@ jobs:
         CHARTS_DIR: charts
       run: echo "matrix={\"include\":[$(ls -d ${CHARTS_DIR}/* | awk '{printf "%s{\"chart\":\"%s\"}", sep, $0; sep=","} END {print ""}')]}" >> $GITHUB_OUTPUT
 
-  job2:
-    needs: job1
+  release:
+    needs: setup
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.setup.outputs.matrix) }}
     steps:
-      - run: |
-          echo "${{ matrix.chart }}"
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Configure Git
+      run: |
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+    - name: Install Helm
+      uses: azure/setup-helm@v1
+      with:
+        version: v3.11.3
+
+    - run: |
+        echo "${{ matrix.chart }}"
+
+    - name: Push Helm chart to OCI compatible registry (Github)
+      uses: bsord/helm-push@v4.1.0
+      with:
+        useOCIRegistry: true
+        registry-url:  oci://ghcr.io/${{ github.repository }}
+        username: a1994sc
+        access-token: ${{secrets.GITHUB_TOKEN}}
+        force: true
+        chart-folder: ${{ matrix.chart }}
 
   #   - id: matrix
   #     env:
