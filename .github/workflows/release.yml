@@ -13,7 +13,7 @@ jobs:
     steps:
       - id: matrix
         run: |
-          echo '::set-output name=value::["a", "b", "c"]'
+          echo 'name=value::["a", "b", "c"]' >> $GITHUB_OUTPUT
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
