@@ -5,14 +5,6 @@ package:
   # -- (Required) Name of the package
   name: ""
 
-  namespace:
-    # -- Name of the namespace.  Defaults to the same name as the package.
-    # @default -- Same as package.name
-    name: ""
-    create: true
-    labels: {}
-    annotations: {}
-
   network:
     # -- Toggle all policies on or off
     policies: true

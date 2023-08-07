@@ -1,5 +1,4 @@
 {{- if and (dig "network" "policies" true .Values.package) (dig "network" "allowHttpsEgress" false .Values.package) -}}
-{{- $pkg := .Values.package -}}
 {{- $egresses := dig "network" "allowHttpsEgress" list .Values.package -}}
 {{- range $i, $egress := $egresses -}}
 ---
@@ -7,7 +6,6 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: {{ include "resourceName" (printf "%s%s" (default (printf "%s-https" $.Values.package.name) $egress.name) (ternary "" (print "-%" $i) (or (not (empty $egress.name)) (eq 1 (len $egresses))))) }}
-  namespace: {{ default $pkg.name $pkg.namespace.name }}
   labels:
     {{- include "commonLabels" $ | nindent 4 }}
 spec:
