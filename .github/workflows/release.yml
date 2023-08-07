@@ -25,7 +25,7 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      packages: write
     strategy:
       matrix: ${{ fromJSON(needs.setup.outputs.matrix) }}
     steps:
@@ -48,7 +48,7 @@ jobs:
       uses: bsord/helm-push@v4.1.0
       with:
         useOCIRegistry: true
-        registry-url:  oci://ghcr.io/a1994sc/helm
+        registry-url: oci://ghcr.io/a1994sc/helm
         username: a1994sc
         access-token: ${{secrets.GITHUB_TOKEN}}
         force: true
