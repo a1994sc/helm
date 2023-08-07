@@ -1,0 +1,304 @@
+nameOverride: ""
+fullnameOverride: ""
+
+global:
+#  replicaCount: 1
+  pullPolicy: IfNotPresent
+  imagePullSecrets: []
+  labels: {}
+  # minReadySeconds: 0
+  annotations: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+    # nodeAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     nodeSelectorTerms:
+    #     - matchExpressions:
+    #       - key: "kubernetes.io/arch"
+    #         operator: In
+    #         values: ["amd64"]
+    # podAntiAffinity:
+    #   preferredDuringSchedulingIgnoredDuringExecution:
+    #   - podAffinityTerm:
+    #       labelSelector:
+    #         matchExpressions:
+    #         - key: app.kubernetes.io/name
+    #           operator: In
+    #           values:
+    #             - standardnotes
+    #       topologyKey: "kubernetes.io/hostname"
+    #     weight: 100
+  resources: {}
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # limits:
+    #   cpu: 200m
+    #   memory: 256Mi
+  env: []
+  # - name: LOG_LEVEL
+  #   value: "info"
+  # - name: NODE_ENV
+  #   value: "development"
+  # - name: VERSION
+  #   value: "local"
+  # - name: AUTH_JWT_SECRET
+  #   value: "auth_jwt_secret"
+  # - name: EXPOSED_PORT
+  #   value: "3000"
+  # - name: DB_HOST
+  #   value: "db"
+  # - name: DB_REPLICA_HOST
+  #   value: "db"
+  # - name: DB_PORT
+  #   value: "3306"
+  # - name: DB_USERNAME
+  #   value: "std_notes_user"
+  # - name: DB_PASSWORD
+  #   value: "changeme123"
+  # - name: DB_DATABASE
+  #   value: "standard_notes_db"
+  # - name: DB_DEBUG_LEVEL
+  #   value: "all"
+  # - name: DB_MIGRATIONS_PATH
+  #   value: "dist/migrations/*.js"
+  # - name: REDIS_URL
+  #   value: "redis://cache"
+  # - name: SNS_TOPIC_ARN
+  #   value: ""
+  # - name: SNS_AWS_REGION
+  #   value: ""
+  # - name: SQS_QUEUE_URL
+  #   value: ""
+  # - name: SQS_AWS_REGION
+  #   value: ""
+  # - name: S3_AWS_REGION
+  #   value: ""
+  # - name: S3_BACKUP_BUCKET_NAME
+  #   value: ""
+  # - name: EMAIL_ATTACHMENT_MAX_BYTE_SIZE
+  #   value: "10485760"
+  # - name: REVISIONS_FREQUENCY
+  #   value: "300"
+  # - name: NEW_RELIC_ENABLED
+  #   value: "false"
+  # - name: NEW_RELIC_LICENSE_KEY
+  #   value: ""
+  # - name: NEW_RELIC_NO_CONFIG_FILE
+  #   value: "true"
+  # - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
+  #   value: "false"
+  # - name: NEW_RELIC_LOG_ENABLED
+  #   value: "false"
+  # - name: NEW_RELIC_LOG_LEVEL
+  #   value: "info"
+  # - name: VALET_TOKEN_SECRET
+  #   value: "change-me-""
+  # - name: FILE_UPLOAD_PATH
+  #   value: "data/uploads"
+  envFrom: []
+  # - configMapRef:
+  #     name: example-env
+  # - secretRef:
+  #     name: example-secret
+  livenessProbe: {}
+    # httpGet:
+    #   path: /healthcheck
+    #   port: 3000
+    # initialDelaySeconds: 10
+    # periodSeconds: 15
+  readinessProbe: {}
+
+api:
+  image:
+    repository: "standardnotes/api-gateway"
+    tag: "1.40.1"
+    pullPolicy: Always
+  name: "api"
+  replicaCount: 1
+  selectorID: "api-gateway"
+  port: 3000
+  resources: {}
+    # limits:
+    #   cpu: "100m"
+    #   memory: "128Mi"
+    # requests:
+    #   cpu: "25m"
+    #   memory: "32Mi"
+  redisChannel: "api-gateway-events"
+  env: []
+  # - name: FILE_UPLOAD_PATH
+  #   value: "data/uploads"
+  envFrom: []
+  # - configMapRef:
+  #     name: example-env
+  # - secretRef:
+  #     name: example-secret
+  minReadySeconds: 10
+
+auth:
+  image:
+    repository: "standardnotes/auth"
+    tag: "1.46.4"
+    pullPolicy: Always
+  name: "auth"
+  replicaCount: 1
+  workerReplicaCount: 2
+#  selectorManagerID: "auth-man"
+#  selectorWorkerID: "auth-work"
+  port: 3000
+  resources: {}
+    # limits:
+    #   cpu: "100m"
+    #   memory: "128Mi"
+    # requests:
+    #   cpu: "25m"
+    #   memory: "32Mi"
+  redisChannel: "auth-events"
+  env: []
+  # - name: JWT_SECRET
+  #   value: "secret"
+  # - name: LEGACY_JWT_SECRET
+  #   value: "legacy_jwt_secret"
+  # - name: AUTH_JWT_TTL
+  #   value: "60000"
+  # - name: NEW_RELIC_APP_NAME
+  #   value: "Auth"
+  # - name: DISABLE_USER_REGISTRATION
+  #   value: "false"
+  # - name: PSEUDO_KEY_PARAMS_KEY
+  #   value: "secret_key"
+  # - name: ACCESS_TOKEN_AGE
+  #   value: "5184000"
+  # - name: REFRESH_TOKEN_AGE
+  #   value: "31556926"
+  # - name: MAX_LOGIN_ATTEMPTS
+  #   value: "6"
+  # - name: FAILED_LOGIN_LOCKOUT
+  #   value: "3600"
+  # - name: EPHEMERAL_SESSION_AGE
+  #   value: "259200"
+  # - name: ENCRYPTION_SERVER_KEY
+  #   value: "server_key"
+  # - name: VALET_TOKEN_TTL
+  #   value: "7200"
+  envFrom: []
+  # - configMapRef:
+  #     name: example-env
+  # - secretRef:
+  #     name: example-secret
+  autoscaling:
+    enabled: false
+    # minReplicas: 2
+    # maxReplicas: 100
+    # targetMemoryUtilizationPercentage: 80
+    # targetCPUUtilizationPercentage: 80
+
+sync:
+  image:
+    repository: "standardnotes/syncing-server-js"
+    tag: "1.55.0"
+    pullPolicy: Always
+  name: "sync"
+  replicaCount: 1
+  workerReplicaCount: 2
+#  selectorManagerID: "sync-man"
+#  selectorWorkerID: "sync-work"
+  port: 3000
+  resources: {}
+    # limits:
+    #   cpu: "100m"
+    #   memory: "128Mi"
+    # requests:
+    #   cpu: "25m"
+    #   memory: "32Mi"
+  redisChannel: "events"
+  env: []
+  # - name: FILE_UPLOAD_PATH
+  #   value: "data/uploads"
+  # - name: NEW_RELIC_APP_NAME
+  #   value: "Syncing Server JS"
+  envFrom: []
+  # - configMapRef:
+  #     name: example-env
+  # - secretRef:
+  #     name: example-secret
+  autoscaling:
+    enabled: false
+    # minReplicas: 2
+    # maxReplicas: 100
+    # targetMemoryUtilizationPercentage: 80
+    # targetCPUUtilizationPercentage: 80
+
+file:
+  image:
+    repository: "standardnotes/files"
+    tag: "1.9.0"
+    pullPolicy: Always
+  name: "file"
+  replicaCount: 1
+  selectorID: "files"
+  port: 3000
+  resources: {}
+    # limits:
+    #   cpu: "100m"
+    #   memory: "128Mi"
+    # requests:
+    #   cpu: "25m"
+    #   memory: "32Mi"
+  redisChannel: "events"
+  env: []
+  # - name: MAX_CHUNK_BYTES
+  #   value: "100000000"
+  envFrom: []
+  # - configMapRef:
+  #     name: example-env
+  # - secretRef:
+  #     name: example-secret
+  minReadySeconds: 10
+
+redis:
+  enabled: false
+
+database:
+  enabled: false
+  generateRandomPassword: false
+  existingSecret: ""
+
+serviceAccount:
+  mount: false
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+  - host: chart-example.local
+    paths:
+    - path: /
+      pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
