@@ -48,7 +48,7 @@ jobs:
       uses: bsord/helm-push@v4.1.0
       with:
         useOCIRegistry: true
-        registry-url:  oci://ghcr.io/A1994SC
+        registry-url:  oci://ghcr.io/a1994sc/helm
         username: a1994sc
         access-token: ${{secrets.GITHUB_TOKEN}}
         force: true

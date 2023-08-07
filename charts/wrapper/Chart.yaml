@@ -9,3 +9,5 @@ dependencies:
   - bitnami-common
   version: 2.x.x
 type: application
+annotations:
+  org.opencontainers.image.source: https://github.com/A1994SC/helm
