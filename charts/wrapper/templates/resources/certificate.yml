@@ -1,0 +1,26 @@
+
+{{- $pkg := .Values.package -}}
+{{- range $i, $cert := $pkg.certificate.certs -}}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ required "A name is required for each certificate" $cert.name }}
+  labels:
+    {{- include "commonLabels" $ | nindent 4 }}
+spec:
+  secretName: {{ required "A name for the secret is required for each certificate" $cert.secretName }}
+  privateKey:
+    rotationPolicy: Always
+  {{- if $cert.dnsNames }}
+  {{- $issuer := $cert.issuerRef | required (printf "package.certificate.certs[%d].issuerRef is required." $i) }}
+  issuerRef:
+  {{- toYaml $issuer | nindent 4}}
+  dnsNames:
+  {{- tpl (toYaml $cert.dnsNames) $ | nindent 2}}
+  {{- end }}
+  {{- if $cert.ipAddresses }}
+  ipAddresses:
+  {{- toYaml $cert.ipAddresses | nindent 2}}
+  {{- end }}
+{{- end -}}

@@ -1,6 +1,6 @@
 {{- /* ConfigMaps */ -}}
 {{- $pkg := .Values.package -}}
-{{- range $cm := .Values.package.configMaps -}}
+{{- range $cm := $pkg.configMaps -}}
 ---
 apiVersion: v1
 kind: ConfigMap

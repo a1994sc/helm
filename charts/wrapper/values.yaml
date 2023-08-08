@@ -26,12 +26,14 @@ package:
     # -- Allow communication with the ingress class namespace
     allowIngress: []
     # - name: traefik
-    #   ingressPodSelector:
-    #     app: traefik
-    #   podSelector:
-    #     app.kubernetes.io/name: example
     #   namespaceSelctor:
     #     app.kubernetes.io/name: traefik
+    #   # -- Optional
+    #   ingressPodSelector:
+    #     app: traefik
+    #   # -- Optional
+    #   podSelector:
+    #     app.kubernetes.io/name: example
     # -- Custom egress/ingress policies to deploy.  [More info](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#networkpolicy-v1-networking-k8s-io)
     additionalPolicies: []
     # - name: name-of-policy
@@ -56,6 +58,15 @@ package:
     #           number: 80
     #       path: /
     #       pathType: Prefix
+
+  certificate:
+    enabled: false
+    certs: []
+    # - name: let-encrypt
+    #   secretName: tls-let-encrypt
+    #   dnsNames: []
+    #   ipAddresses: []
+    #   issuerRef: {}
 
   # -- Secrets that should be created prior to Helm install
   secrets: []
