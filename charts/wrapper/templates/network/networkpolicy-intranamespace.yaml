@@ -1,4 +1,4 @@
-{{- if and (dig "network" "policies" true .Values.package) (dig "network" "allowInstranamespace" true .Values.package) -}}
+{{- if and (dig "network" "policies" true .Values.package) (dig "network" "allowIntraNamespace" true .Values.package) -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy

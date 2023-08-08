@@ -23,10 +23,39 @@ package:
     #   selector:
     #     matchLabels:
     #       app.kubernetes.io/name: example
+    # -- Allow communication with the ingress class namespace
+    allowIngress: []
+    # - name: traefik
+    #   ingressPodSelector:
+    #     app: traefik
+    #   podSelector:
+    #     app.kubernetes.io/name: example
+    #   namespaceSelctor:
+    #     app.kubernetes.io/name: traefik
     # -- Custom egress/ingress policies to deploy.  [More info](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#networkpolicy-v1-networking-k8s-io)
     additionalPolicies: []
     # - name: name-of-policy
     #   spec: {} # See Network Policy spec
+
+  ingress:
+    enabled: false
+    # ingressClass: nginx
+    # tlsSecretName: tls-example
+    # annotations: {}
+    hosts: []
+    # - name: test
+    #   domain: example.com
+    #   ingressClass: traefik
+    #   tlsSecretName: tls-example
+    #   paths:
+    #   - backend:
+    #       service:
+    #         name: foo
+    #         port:
+    #           name: http
+    #           number: 80
+    #       path: /
+    #       pathType: Prefix
 
   # -- Secrets that should be created prior to Helm install
   secrets: []
@@ -43,6 +72,3 @@ package:
   # - name:
   #   # -- Data to include in configMap.  Can include helm template syntax.
   #   data: {}
-
-  # -- Pass through values to this package's upstream Helm chart
-  values: {}

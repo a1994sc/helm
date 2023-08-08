@@ -1,0 +1,35 @@
+{{- /* Sets up kubernetes ingress resources */ -}}
+{{- $ingress := .Values.package.ingress -}}
+{{- if and (dig "ingress" "hosts" false .Values.package) $ingress.enabled -}}
+{{- range $host := $ingress.hosts }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "resourceName" (printf "%s-%s-%s" $.Values.package.name $host.name (default $.Values.domain $host.domain)) }}
+  labels:
+    {{- include "commonLabels" $ | nindent 4 }}
+  {{- if or $ingress.annotations $host.annotations }}
+  annotations:
+    {{- if $ingress.annotations }}
+    {{- toYaml $ingress.annotations | nindent 4 }}
+    {{- end }}
+    {{- if $host.annotations }}
+    {{- toYaml $host.annotations | nindent 4 }}
+    {{- end }}
+  {{- end }}
+spec:
+  ingressClassName: {{ default $ingress.ingressClass $host.ingressClass | quote}}
+  {{- if or $ingress.tlsSecretName $host.tlsSecretName }}
+  tls:
+  - secretName: {{ default $ingress.tlsSecretName $host.tlsSecretName }}
+  {{- end }}
+  rules:
+  - host: {{ printf "%s.%s" $host.name (default $.Values.domain $host.domain) | quote }}
+    {{ if $host.paths -}}
+    http:
+      paths:
+      {{- toYaml $host.paths | nindent 6 }}
+    {{- end -}}
+{{- end -}}
+{{- end -}}
