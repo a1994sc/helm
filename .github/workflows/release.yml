@@ -52,5 +52,4 @@ jobs:
         registry-url: oci://ghcr.io/a1994sc/helm
         username: a1994sc
         access-token: ${{secrets.GITHUB_TOKEN}}
-        force: false
         chart-folder: ${{ matrix.chart }}
