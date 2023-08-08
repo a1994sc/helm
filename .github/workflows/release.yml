@@ -44,9 +44,16 @@ jobs:
       with:
         version: v3.12.2
 
+    - name: Get changed files in the docs folder
+      id: changed-files-specific
+      uses: tj-actions/changed-files@v37
+      with:
+        files: ${{ matrix.chart }}/**
+
     - name: Push Helm chart to OCI compatible registry (Github)
       uses: bsord/helm-push@v4.1.0
       continue-on-error: true
+      if: steps.changed-files-specific.outputs.any_changed == 'true'
       with:
         useOCIRegistry: true
         registry-url: oci://ghcr.io/a1994sc/helm
