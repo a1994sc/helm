@@ -1,6 +1,9 @@
 
 {{- $pkg := .Values.package -}}
 {{- range $i, $cert := $pkg.certificate.certs -}}
+{{- if and (not $cert.dnsNames) (not $cert.ipAddresses) }}
+{{- fail (printf "Values for certificate SAN (dnsNames or ipAddresses) are required for package.certificate.certs.%d" $i) }}
+{{- end }}
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -12,10 +15,10 @@ spec:
   secretName: {{ required "A name for the secret is required for each certificate" $cert.secretName }}
   privateKey:
     rotationPolicy: Always
-  {{- if $cert.dnsNames }}
-  {{- $issuer := $cert.issuerRef | required (printf "package.certificate.certs[%d].issuerRef is required." $i) }}
+  {{- $issuer := $cert.issuerRef | required (printf "package.certificate.certs.%d.issuerRef is required." $i) }}
   issuerRef:
   {{- toYaml $issuer | nindent 4}}
+  {{- if $cert.dnsNames }}
   dnsNames:
   {{- tpl (toYaml $cert.dnsNames) $ | nindent 2}}
   {{- end }}
@@ -23,4 +26,4 @@ spec:
   ipAddresses:
   {{- toYaml $cert.ipAddresses | nindent 2}}
   {{- end }}
-{{- end -}}
+{{ end -}}
