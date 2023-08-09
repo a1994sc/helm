@@ -1,7 +1,7 @@
 apiVersion: v2
-name: wrapper
-version: 1.0.5
-description: Adds extra supporting packages
+name: packager
+version: 1.0.0
+description: Allows bundling of supporting charts
 dependencies:
 - name: common
   repository: oci://registry-1.docker.io/bitnamicharts

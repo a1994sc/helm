@@ -1,0 +1,24 @@
+{{- /* Used for creating values to use for Helm wrapper and package Helm charts. */ -}}
+{{- range $pkg, $vals := .Values.packages -}}
+{{- if and (dig "enabled" true $vals) (dig "wrapper" "enabled" false $vals) -}}
+{{- $pkg = include "resourceName" $pkg -}}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $pkg }}-wrapper-values
+  namespace: {{ dig "namespace" "name" $pkg $vals }}
+type: Opaque
+stringData:
+  values.yaml: |
+    {{- $defaults := ($.Files.Get (printf "defaults/%s.yaml" $pkg) | fromYaml) -}}
+    {{- $overlays := dict "old" $.Values "package" $vals -}}
+    {{- $merged := merge $overlays $defaults }}
+    domain: {{ $.Values.domain }}
+    package:
+      name: {{ $pkg }}
+      {{- if (omit $overlays.package "git" "helmRepo" "flux" "postRenderers" "dependsOn") }}
+      {{- tpl (toYaml (omit $overlays.package "git" "helmRepo" "flux" "postRenderers" "dependsOn" "wrapper" "values")) $ | nindent 6 }}
+      {{- end }}
+{{ end -}}
+{{- end -}}

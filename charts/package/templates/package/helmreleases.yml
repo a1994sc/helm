@@ -1,0 +1,46 @@
+{{- /* Used for deploying a package using a Helm chart */ -}}
+{{- range $pkg, $vals := .Values.packages -}}
+{{- if (dig "enabled" true $vals) -}}
+{{- $pkg := include "resourceName" $pkg -}}
+{{- $fluxSettings := merge (dig "flux" dict $vals) $.Values.flux -}}
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: {{ $pkg }}
+  namespace: {{ dig "namespace" "name" $pkg $vals }}
+  labels:
+    app.kubernetes.io/name: {{ $pkg }}
+    {{- include "commonLabels" $ | nindent 4 }}
+spec:
+  releaseName: {{ $pkg }}
+  chart:
+    spec:
+      {{- if $vals.helmRepo }}
+      chart: {{ dig "helmRepo" "chartName" $pkg $vals }}
+      version: {{ dig "helmRepo" "tag" nil $vals }}
+      sourceRef:
+        kind: HelmRepository
+        name: {{ dig "helmRepo" "repoName" "registry1" $vals }}
+        namespace: {{ $.Release.Namespace }}
+      {{- else if $vals.git }}
+      chart: {{ dig "git" "path" "chart" $vals }}
+      sourceRef:
+        kind: GitRepository
+        name: {{ $pkg }}
+        namespace: {{ dig "namespace" "name" $pkg $vals }}
+      {{- else }}
+      {{- fail (printf "Values for source (git or helmRepo) are required for package %s" $pkg) }}
+      {{- end }}
+      interval: {{ default "5m" $fluxSettings.interval }}
+      reconcileStrategy: Revision
+  {{- toYaml $fluxSettings | nindent 2 }}
+  {{- if $vals.postRenderers }}
+  postRenderers:
+  {{- toYaml $vals.postRenderers | nindent 2 }}
+  {{- end }}
+  valuesFrom:
+  - name: {{ $pkg }}-values
+    kind: Secret
+{{ end -}}
+{{- end -}}
