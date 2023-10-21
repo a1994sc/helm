@@ -11,6 +11,6 @@ metadata:
     {{- include "commonLabels" $ | nindent 4 }}
 spec:
   url: {{ $vals.url }}
-  type: {{ dig "type" "generic" $vals }}
+  type: {{ dig "type" "default" $vals }}
   interval:  {{ dig "interval" "10m0s" $vals }}
 {{ end -}}
