@@ -18,7 +18,7 @@ stringData:
     package:
       name: {{ $pkg }}
       {{- if (omit $overlays.package "git" "helmRepo" "flux" "postRenderers" "dependsOn") }}
-      {{- tpl (toYaml (omit $overlays.package "git" "helmRepo" "flux" "postRenderers" "dependsOn" "wrapper" "values")) $ | nindent 6 }}
+      {{- tpl (toYaml (omit $overlays.package "git" "helmRepo" "flux" "postRenderers" "dependsOn" "wrapper" "values" "valuesFrom")) $ | nindent 6 }}
       {{- end }}
 {{ end -}}
 {{- end -}}

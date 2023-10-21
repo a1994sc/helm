@@ -22,7 +22,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: {{ dig "helmRepo" "repoName" "registry1" $vals }}
-        namespace: {{ $.Release.Namespace }}
+        namespace: {{ dig "namespace" $.Release.Namespace $vals.helmRepo }}
       {{- else if $vals.git }}
       chart: {{ dig "git" "path" "chart" $vals }}
       sourceRef:
@@ -40,7 +40,8 @@ spec:
   {{- toYaml $vals.postRenderers | nindent 2 }}
   {{- end }}
   valuesFrom:
-  - name: {{ $pkg }}-values
-    kind: Secret
+  - kind: Secret
+    name: {{ $pkg }}-values
+  {{- toYaml $vals.valuesFrom | nindent 2 }}
 {{ end -}}
 {{- end -}}
