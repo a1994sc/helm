@@ -42,6 +42,8 @@ spec:
   valuesFrom:
   - kind: Secret
     name: {{ $pkg }}-values
+  {{- if $vals.valuesFrom }}
   {{- toYaml $vals.valuesFrom | nindent 2 }}
+  {{- end }}
 {{ end -}}
 {{- end -}}
