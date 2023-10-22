@@ -10,5 +10,5 @@ metadata:
     {{- include "commonLabels" $ | nindent 4 }}
 spec:
   {{- toYaml $policy.spec | nindent 2 }}
-{{- end -}}
+{{ end -}}
 {{- end -}}
