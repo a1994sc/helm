@@ -18,7 +18,7 @@ spec:
     spec:
       {{- if $vals.helmRepo }}
       chart: {{ dig "helmRepo" "chartName" $pkg $vals }}
-      version: {{ dig "helmRepo" "tag" nil $vals }}
+      version: {{ dig "helmRepo" "tag" nil $vals | quote }}
       sourceRef:
         kind: HelmRepository
         name: {{ dig "helmRepo" "repoName" "registry1" $vals }}
