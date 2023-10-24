@@ -21,7 +21,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: {{ $.Values.wrapper.helmRepo.repoName }}
-        namespace: {{ $.Release.Namespace }}
+        namespace: {{ dig "wrapper" "helmRepo" "namespace" "flux-system" $vals }}
       {{- else }}
       chart: {{ default "chart" $.Values.wrapper.git.path }}
       sourceRef:

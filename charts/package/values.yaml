@@ -41,6 +41,8 @@ wrapper:
     chartName: wrapper
     # -- Tag of the OCI chart in `repo`
     tag: "1.0.6"
+    # Namespace to find the helm repo.
+    namespace:
 
 packages:
   sample:
