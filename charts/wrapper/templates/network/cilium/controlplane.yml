@@ -1,7 +1,8 @@
+{{- if eq (dig "network" "backend" "native" .Values.package) "cilium" }}
 {{- if and (dig "network" "policies" true .Values.package) (dig "network" "allowControlPlaneEgress" false .Values.package) -}}
 ---
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
 metadata:
   name: {{ include "resourceName" (printf "%s-controlplane" .Values.package.name) }}
   labels:
@@ -11,12 +12,11 @@ spec:
   policyTypes:
   - Egress
   egress:
-  - to:
-    - ipBlock:
-        cidr: {{ .Values.package.network.controlPlaneCidr }}
-        {{- if eq .Values.package.network.controlPlaneCidr "0.0.0.0/0" }}
-        # ONLY Block requests to cloud metadata IP
-        except:
-        - 169.254.169.254/32
-        {{- end }}
+  - toEntities:
+    - kube-apiserver
+    toPorts:
+    - ports:
+      - port: "443"
+      - port: "6443"
+{{- end -}}
 {{- end -}}

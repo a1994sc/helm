@@ -1,16 +1,17 @@
+{{- if eq (dig "network" "backend" "native" .Values.package) "cilium" }}
 {{- if and (dig "network" "policies" true .Values.package) (dig "network" "defaultDeny" true .Values.package) -}}
 ---
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
 metadata:
   name: {{ include "resourceName" (printf "%s-defaultdeny" .Values.package.name) }}
   labels:
     {{- include "commonLabels" $ | nindent 4 }}
 spec:
-  podSelector: {}
-  policyTypes:
-  - Egress
-  - Ingress
-  egress: []
-  ingress: []
+  endpointSelector: {}
+  ingress:
+  - {}
+  egress:
+  - {}
+{{- end -}}
 {{- end -}}

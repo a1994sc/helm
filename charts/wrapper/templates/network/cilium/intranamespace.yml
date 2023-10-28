@@ -1,0 +1,19 @@
+{{- if eq (dig "network" "backend" "native" .Values.package) "cilium" }}
+{{- if and (dig "network" "policies" true .Values.package) (dig "network" "allowIntraNamespace" true .Values.package) -}}
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: {{ include "resourceName" (printf "%s-intranamespace" .Values.package.name) }}
+  labels:
+    {{- include "commonLabels" $ | nindent 4 }}
+spec:
+  endpointSelector: {}
+  ingress:
+  - fromEndpoints:
+    - {}
+  egress:
+  - toEndpoints:
+    - {}
+{{- end -}}
+{{- end -}}

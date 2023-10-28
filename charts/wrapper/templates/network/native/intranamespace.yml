@@ -1,3 +1,4 @@
+{{- if eq (dig "network" "backend" "native" .Values.package) "native" }}
 {{- if and (dig "network" "policies" true .Values.package) (dig "network" "allowIntraNamespace" true .Values.package) -}}
 ---
 apiVersion: networking.k8s.io/v1
@@ -17,4 +18,5 @@ spec:
   egress:
   - to:
     - podSelector: {}
+{{- end -}}
 {{- end -}}

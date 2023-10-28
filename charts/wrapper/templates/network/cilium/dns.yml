@@ -1,0 +1,27 @@
+{{- if eq (dig "network" "backend" "native" .Values.package) "cilium" }}
+{{- if and (dig "network" "policies" true .Values.package) (dig "network" "allowDnsEgress" true .Values.package) -}}
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: {{ include "resourceName" (printf "%s-dns" .Values.package.name) }}
+  labels:
+    {{- include "commonLabels" $ | nindent 4 }}
+spec:
+  endpointSelector: {}
+  ingress:
+  - {}
+  egress:
+  - toEndpoints:
+    - matchLabels:
+        io.kubernetes.pod.namespace: kube-system
+        k8s-app: kube-dns
+    toPorts:
+    - ports:
+      - port: "53"
+        protocol: UDP
+      rules:
+        dns:
+        - matchPattern: "*"
+{{- end -}}
+{{- end -}}
