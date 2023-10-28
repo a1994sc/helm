@@ -1,0 +1,17 @@
+{{- if gt (.Values.replica | int) 1 }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: leader-election:kubelet-serving-cert-approver
+  labels:
+    {{- include "ksca.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: leader-election:kubelet-serving-cert-approver
+subjects:
+- kind: ServiceAccount
+  name: {{ include "ksca.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+{{ end -}}
