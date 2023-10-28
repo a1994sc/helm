@@ -40,7 +40,7 @@ wrapper:
     # -- Name of the OCI chart in `repo`
     chartName: wrapper
     # -- Tag of the OCI chart in `repo`
-    tag: "1.1.0"
+    tag: "1.1.1"
     # Namespace to find the helm repo.
     namespace:
 
