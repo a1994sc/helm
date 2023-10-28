@@ -10,6 +10,9 @@ metadata:
   labels:
     {{- include "commonLabels" $ | nindent 4 }}
 spec:
+  {{- if not $policy.spec.endpointSelector }}
+  endpointSelector: {}
+  {{- end }}
   {{- toYaml $policy.spec | nindent 2 }}
 {{ end -}}
 {{- end -}}
