@@ -8,9 +8,7 @@ metadata:
   labels:
     {{- include "commonLabels" . | nindent 4 }}
 spec:
-  podSelector: {}
-  policyTypes:
-  - Egress
+  endpointSelector: {}
   egress:
   - toEntities:
     - kube-apiserver
