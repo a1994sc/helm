@@ -27,25 +27,47 @@ package:
     # - name: name-of-policy
     #   spec: {} # See NetworkPolicy OR CiliumNetworkPolicy spec
 
-  ingress:
-    enabled: false
-    # ingressClass: nginx
-    # tlsSecretName: tls-example
-    # annotations: {}
-    hosts: []
-    # - name: test
-    #   domain: example.com
-    #   ingressClass: traefik
-    #   tlsSecretName: tls-example
-    #   paths:
-    #   - backend:
-    #       service:
-    #         name: foo
-    #         port:
-    #           name: http
-    #           number: 80
-    #       path: /
-    #       pathType: Prefix
+  entry:
+    ingress:
+      enabled: false
+      ingressClass: nginx
+      tlsSecretName: tls-example
+      annotations: {}
+      hosts: []
+      # - name: test
+      #   domain: example.com
+      #   ingressClass: traefik
+      #   tlsSecretName: tls-example
+      #   paths:
+      #   - backend:
+      #       service:
+      #         name: foo
+      #         port:
+      #           name: http
+      #           number: 80
+      #       path: /
+      #       pathType: Prefix
+    gateway:
+      enabled: false
+      gatewayClass: cilium
+      annotations: {}
+        # cert-manager.io/issuer: step-issuer
+        # cert-manager.io/issuer-kind: StepClusterIssuer
+        # cert-manager.io/issuer-group: certmanager.step.sm
+      hosts: []
+      # - name: https
+      #   port: 443
+      #   protocol: HTTPS
+      #   extra:
+      #     httpRedirct: true
+      #   tls:
+      #     enabled: true
+      #   rules:
+      #   - backendRefs:
+      #     - kind: Service
+      #       name: argocd-server
+      #       namespace: argocd
+      #       port: 80
 
   certificate:
     enabled: false

@@ -1,0 +1,52 @@
+{{- /* Sets up kubernetes gateway resources */ -}}
+{{- $gateway := .Values.package.entry.gateway -}}
+{{- if and (dig "entry" "gateway" "hosts" false .Values.package) $gateway.enabled -}}
+{{- range $i, $host := $gateway.hosts }}
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: {{ include "resourceName" (printf "%s-%s-%s" $.Values.package.name $host.name (default $.Values.domain $host.domain)) }}
+  {{- if or $gateway.annotations $host.annotations }}
+  annotations:
+    {{- if $gateway.annotations }}
+    {{- toYaml $gateway.annotations | nindent 4 }}
+    {{- end }}
+    {{- if $host.annotations }}
+    {{- toYaml $host.annotations | nindent 4 }}
+    {{- end }}
+  {{- end }}
+  labels:
+    {{- include "commonLabels" $ | nindent 4 }}
+    {{- if $gateway.labels }}
+    {{- toYaml $gateway.labels | nindent 4 }}
+    {{- end }}
+    {{- if $host.labels }}
+    {{- toYaml $host.labels | nindent 4 }}
+    {{- end }}
+spec:
+  gatewayClassName: {{ default $gateway.gatewayClass $host.gatewayClass | quote }}
+  {{- if or $gateway.addresses $host.addresses }}
+  addresses:
+    {{- if $gateway.addresses }}
+    {{- toYaml $gateway.addresses | nindent 4 }}
+    {{- end }}
+    {{- if $host.addresses }}
+    {{- toYaml $host.addresses | nindent 4 }}
+    {{- end }}
+  {{- end }}
+  listeners:
+  {{- range $j, $listen := $host.listeners }}
+  - name: {{ $listen.name }}
+    hostname: {{ printf "%s.%s" (default $host.name $listen.hostname) (default $.Values.domain $host.domain) | quote }}
+    port: {{ $listen.port }}
+    protocol: {{ $listen.protocol }}
+    {{- if (dig "tls" "enabled" false $listen) }}
+    tls:
+      mode: {{ dig "tls" "mode" "Terminate" $listen }}
+      certificateRefs:
+      - name: {{ dig "tls" "cert" "tls-cert" $listen }}
+    {{- end }}
+  {{- end }}
+{{- end -}}
+{{- end -}}

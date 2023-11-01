@@ -1,0 +1,30 @@
+{{- /* Sets up kubernetes gateway resources */ -}}
+{{- $gateway := .Values.package.entry.gateway }}
+{{- if and (dig "entry" "gateway" "hosts" false .Values.package) $gateway.enabled }}
+{{- range $host := $gateway.hosts }}
+{{- range $listen := $host.listeners }}
+{{- if (eq $listen.protocol "UDP") }}
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: UDPRoute
+metadata:
+  name: {{ include "resourceName" (printf "%s-%s-%s" $.Values.package.name $host.name $listen.name) }}
+  labels:
+    {{- include "commonLabels" $ | nindent 4 }}
+    {{- if $gateway.labels }}
+    {{- toYaml $gateway.labels | nindent 4 }}
+    {{- end }}
+    {{- if $host.labels }}
+    {{- toYaml $host.labels | nindent 4 }}
+    {{- end }}
+spec:
+  parentRefs:
+  - kind: Gateway
+    name: {{ include "resourceName" (printf "%s-%s-%s" $.Values.package.name $host.name (default $.Values.domain $host.domain)) }}
+    sectionName: {{ $listen.name }}
+  rules:
+  {{- toYaml $listen.rules | nindent 2 }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

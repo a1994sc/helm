@@ -1,6 +1,6 @@
 {{- /* Sets up kubernetes ingress resources */ -}}
-{{- $ingress := .Values.package.ingress -}}
-{{- if and (dig "ingress" "hosts" false .Values.package) $ingress.enabled -}}
+{{- $ingress := .Values.package.entry.ingress -}}
+{{- if and (dig "entry" "ingress" "hosts" false .Values.package) $ingress.enabled -}}
 {{- range $host := $ingress.hosts }}
 ---
 apiVersion: networking.k8s.io/v1
@@ -19,7 +19,7 @@ metadata:
     {{- end }}
   {{- end }}
 spec:
-  ingressClassName: {{ default $ingress.ingressClass $host.ingressClass | quote}}
+  ingressClassName: {{ default $ingress.ingressClass $host.ingressClass | quote }}
   {{- if or $ingress.tlsSecretName $host.tlsSecretName }}
   tls:
   - secretName: {{ default $ingress.tlsSecretName $host.tlsSecretName }}
