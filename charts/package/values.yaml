@@ -1,3 +1,7 @@
+global:
+  # -- Override the namespace that resources will be created in
+  namespace: ""
+
 domain: ""
 
 helmRepositories: []
@@ -27,7 +31,6 @@ flux:
   rollback:
     timeout: 10m
     cleanupOnFail: true
-
 
 # -- Wrapper chart for integrating common additions to charts
 wrapper:
