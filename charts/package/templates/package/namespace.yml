@@ -1,3 +1,4 @@
+{{- $kubeVersion := printf "v%s.%s" .Capabilities.KubeVersion.Major .Capabilities.KubeVersion.Minor -}}
 {{- range $pkg, $vals := .Values.packages -}}
 {{- if and (dig "enabled" true $vals) (dig "namespace" "create" true $vals) -}}
 {{- $pkg = include "resourceName" $pkg -}}
@@ -8,10 +9,18 @@ metadata:
   name: {{ dig "namespace" "name" $pkg $vals }}
   labels:
     app.kubernetes.io/name: {{ $pkg }}
-    {{- include "commonLabels" $ | nindent 4 }}
+    {{- if (dig "namespace" "pod-security" "enabled" false $vals) }}
+    pod-security.kubernetes.io/warn: {{ dig "namespace" "pod-security" "warn" "baseline" $vals }}
+    pod-security.kubernetes.io/warn-version: {{ dig "namespace" "pod-security" "level" $kubeVersion $vals }}
+    pod-security.kubernetes.io/enforce: {{ dig "namespace" "pod-security" "enforce" "baseline" $vals }}
+    pod-security.kubernetes.io/enforce-version: {{ dig "namespace" "pod-security" "level" $kubeVersion $vals }}
+    pod-security.kubernetes.io/audit: {{ dig "namespace" "pod-security" "audit" "baseline" $vals }}
+    pod-security.kubernetes.io/audit-version: {{ dig "namespace" "pod-security" "level" $kubeVersion $vals }}
+    {{- end }}
     {{- if (dig "namespace" "labels" nil $vals) -}}
     {{- toYaml $vals.namespace.labels | nindent 4 -}}
     {{- end -}}
+    {{- include "commonLabels" $ | nindent 4 }}
   {{- if (dig "namespace" "annotations" nil $vals) }}
   annotations:
     {{- toYaml $vals.namespace.annotations | nindent 4 -}}
