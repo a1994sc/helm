@@ -17,7 +17,7 @@ spec:
     spec:
       {{- if (eq $.Values.wrapper.sourceType "helmRepo") }}
       chart: {{ $.Values.wrapper.helmRepo.chartName }}
-      version: {{ $.Values.wrapper.helmRepo.tag }}
+      version: {{ $.Values.wrapper.helmRepo.tag | quote }}
       sourceRef:
         kind: HelmRepository
         name: {{ $.Values.wrapper.helmRepo.repoName }}
