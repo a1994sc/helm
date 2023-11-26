@@ -43,7 +43,7 @@ wrapper:
     # -- Name of the OCI chart in `repo`
     chartName: wrapper
     # -- Tag of the OCI chart in `repo`
-    tag: "1.2.1"
+    tag: "1.2.2"
     # Namespace to find the helm repo.
     namespace:
 
@@ -118,6 +118,7 @@ packages:
     dependsOn: []
 
     # Wrapper options that are passed down to the wrapper chart.
+    valuesFrom: []
     network: {}
     ingress: {}
     certificate: {}
