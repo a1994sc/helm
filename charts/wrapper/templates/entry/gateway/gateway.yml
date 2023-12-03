@@ -38,7 +38,9 @@ spec:
   listeners:
   {{- range $j, $listen := $host.listeners }}
   - name: {{ $listen.name }}
+    {{- if (or (eq $listen.protocol "HTTP") (eq $listen.protocol "HTTPS") )}}
     hostname: {{ printf "%s.%s" (default $host.name $listen.hostname) (default $.Values.domain $host.domain) | quote }}
+    {{- end }}
     port: {{ $listen.port }}
     protocol: {{ $listen.protocol }}
     {{- if (dig "tls" "enabled" false $listen) }}
