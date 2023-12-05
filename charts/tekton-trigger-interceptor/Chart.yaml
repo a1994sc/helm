@@ -1,0 +1,8 @@
+apiVersion: v2
+name: tekton-trigger-interceptor
+version: 0.25.3
+description: A Helm chart for Tekton Trigger Interceptor
+type: application
+appVersion: "v0.25.3"
+annotations:
+  org.opencontainers.image.source: https://github.com/A1994SC/helm

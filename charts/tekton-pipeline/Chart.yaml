@@ -1,0 +1,8 @@
+apiVersion: v2
+name: tekton-pipeline
+version: 0.54.0
+description: A Helm chart for Tekton Pipeline
+type: application
+appVersion: "v0.54.0"
+annotations:
+  org.opencontainers.image.source: https://github.com/A1994SC/helm
