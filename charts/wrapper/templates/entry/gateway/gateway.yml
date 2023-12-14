@@ -47,7 +47,7 @@ spec:
     tls:
       mode: {{ dig "tls" "mode" "Terminate" $listen }}
       certificateRefs:
-      - name: {{ dig "tls" "cert" "tls-cert" $listen }}
+      - name: {{ dig "tls" "cert" (printf "%s-tls-cert" $host.name) $listen }}
     {{- end }}
   {{- end }}
 {{- end -}}
