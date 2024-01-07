@@ -2,7 +2,7 @@ apiVersion: v2
 name: ksca
 description: A chart to deploy "kubelet serving cert approver" from github.com/alex1989hu
 type: application
-version: 1.0.0
-appVersion: "0.7.5"
+version: 1.0.1
+appVersion: "0.8.0"
 annotations:
   org.opencontainers.image.source: https://github.com/a1994sc/helm

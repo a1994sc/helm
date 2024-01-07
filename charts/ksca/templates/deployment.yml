@@ -73,7 +73,15 @@ spec:
           {{- toYaml .Values.resources | nindent 10 }}
         securityContext:
           {{- toYaml .Values.securityContext | nindent 10 }}
+        {{- with .Values.extraVolumes.volumeMounts }}
+        volumeMounts:
+        {{ toYaml . | nindent 8 | trim }}
+        {{- end }}
       priorityClassName: system-cluster-critical
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       serviceAccountName: {{ include "ksca.serviceAccountName" . }}
+      {{- with .Values.extraVolumes.volumes }}
+      volumes:
+      {{ toYaml . | nindent 6 | trim }}
+      {{- end }}
