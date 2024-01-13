@@ -1,0 +1,13 @@
+apiVersion: v2
+name: extra-deploy
+version: 1.0.0
+description: Simple wrapper of `bitnamicharts/common` for deploying extra resources via helm chart
+dependencies:
+- name: common
+  repository: oci://registry-1.docker.io/bitnamicharts
+  tags:
+  - bitnami-common
+  version: 2.x.x
+type: application
+annotations:
+  org.opencontainers.image.source: https://github.com/A1994SC/helm
