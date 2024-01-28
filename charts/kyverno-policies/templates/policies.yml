@@ -1,0 +1,24 @@
+{{- range $i, $policy := .Values.policies }}
+{{- if not $policy.name }}
+{{- fail (printf "You must include a name for policies[%d]" $i) }}
+{{- end }}
+{{- if not $policy.spec }}
+{{- fail (printf "You must include a spec for policies[%d]" $i) }}
+{{- end }}
+---
+apiVersion: kyverno.io/v1
+kind: Policy
+metadata:
+  name: {{ $policy.name }}
+  labels:
+    {{- include "commonLabels" $ | nindent 4 }}
+    {{- if $policy.labels }}
+    {{- toYaml $policy.labels | nindent 4 }}
+    {{- end }}
+  {{- if $policy.annotations }}
+  annotations:
+    {{- toYaml $policy.annotations | nindent 4 }}
+  {{- end }}
+spec:
+  {{- toYaml $policy.spec | nindent 2 }}
+{{- end }}

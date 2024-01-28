@@ -1,0 +1,7 @@
+apiVersion: v2
+name: policies
+version: 1.0.0
+description: Deploy Kyverno policies
+type: application
+annotations:
+  org.opencontainers.image.source: https://github.com/A1994SC/helm
