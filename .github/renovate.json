@@ -31,13 +31,6 @@
         "docker",
         "helm"
       ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch",
-        "bump",
-        "digest"
-      ],
       "commitMessagePrefix": "chore(oci-deps): ",
       "separateMajorMinor": false
     },
