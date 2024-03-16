@@ -1,6 +1,6 @@
 apiVersion: v2
 name: policies
-version: 1.0.0
+version: 1.0.1
 description: Deploy Kyverno policies
 type: application
 annotations:
