@@ -42,8 +42,7 @@
       "matchPackagePrefixes": [
         "*"
       ],
-      "commitMessagePrefix": "chore(oci-deps): ",
-      "separateMajorMinor": false
+      "commitMessagePrefix": "chore(oci-deps): "
     },
     {
       "groupName": "Github",
