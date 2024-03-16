@@ -14,7 +14,7 @@
       "(^|/)charts/.+\\.ya?ml(\\.j2)?$"
     ]
   },
-  "helm-values": {
+  "helmv3": {
     "fileMatch": [
       "(^|/)charts/.+\\.ya?ml(\\.j2)?$"
     ]
@@ -40,7 +40,7 @@
         "digest"
       ],
       "matchPackagePrefixes": [
-        "*"
+        ".*"
       ],
       "commitMessagePrefix": "chore(oci-deps): "
     },
@@ -59,7 +59,7 @@
         "digest"
       ],
       "matchPackagePrefixes": [
-        "*"
+        ".*"
       ],
       "commitMessagePrefix": "chore(github-deps): "
     },
@@ -80,6 +80,7 @@
       "addLabels": ["renovate/github-action"]
     }
   ],
+  "separateMajorMinor": false,
   "customManagers": [
     {
       "customType": "regex",
