@@ -1,8 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended",
-    "group:all"
+    "config:recommended"
   ],
   "assignees": ["@A1994SC"],
   "dependencyDashboard": true,
@@ -30,6 +29,9 @@
       "matchDatasources": [
         "docker",
         "helm"
+      ],
+      "matchPackagePrefixes": [
+        "*"
       ],
       "commitMessagePrefix": "chore(oci-deps): ",
       "separateMajorMinor": false
