@@ -1,0 +1,91 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "group:all"
+  ],
+  "assignees": ["@A1994SC"],
+  "dependencyDashboard": true,
+  "git-submodules": {
+    "enabled": true
+  },
+  "bumpVersion": "patch",
+  "flux": {
+    "fileMatch": [
+      "(^|/)charts/.+\\.ya?ml(\\.j2)?$"
+    ]
+  },
+  "helm-values": {
+    "fileMatch": [
+      "(^|/)charts/.+\\.ya?ml(\\.j2)?$"
+    ]
+  },
+  "kubernetes": {
+    "fileMatch": [
+      "(^|/)charts/.+\\.ya?ml(\\.j2)?$"
+    ]
+  },
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch",
+        "bump",
+        "digest"
+      ],
+      "commitMessagePrefix": "chore(oci-deps): ",
+      "separateMajorMinor": false
+    },
+    {
+      "matchDatasources": [
+        "github-releases",
+        "github-tags"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch",
+        "bump",
+        "digest"
+      ],
+      "commitMessagePrefix": "chore(github-deps): "
+    },
+    {
+      "matchDatasources": ["docker"],
+      "addLabels": ["renovate/container"]
+    },
+    {
+      "matchDatasources": ["helm"],
+      "addLabels": ["renovate/helm"]
+    },
+    {
+      "matchDatasources": ["github-releases", "github-tags"],
+      "addLabels": ["renovate/github-release"]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "addLabels": ["renovate/github-action"]
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": ["Process custom dependencies"],
+      "fileMatch": [
+        "(^|/)base/.+\\.ya?ml(\\.j2)?$",
+        "(^|/)clusters?/.+\\.ya?ml(\\.j2)?$",
+        "(^|/)utilities/.+\\.ya?ml(\\.j2)?$"
+      ],
+      "matchStrings": [
+        "(?m:# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+?: \"?(?<currentValue>\\S+?)\"?$)",
+        "(?m:# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+?\/(?<currentValue>(v|\\d)[^\/]+)\\S+$)"
+      ],
+      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
+    }
+  ]
+}
