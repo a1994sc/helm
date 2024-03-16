@@ -27,6 +27,7 @@
   "packageRules": [
     {
       "groupName": "Updates",
+      "groupSlug": "all",
       "matchDatasources": [
         "docker",
         "helm"
@@ -39,6 +40,7 @@
     },
     {
       "groupName": "Github",
+      "groupSlug": "all",
       "matchDatasources": [
         "github-releases",
         "github-tags"
