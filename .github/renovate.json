@@ -38,6 +38,7 @@
       "separateMajorMinor": false
     },
     {
+      "groupName": "Github",
       "matchDatasources": [
         "github-releases",
         "github-tags"
@@ -48,6 +49,9 @@
         "patch",
         "bump",
         "digest"
+      ],
+      "matchPackagePrefixes": [
+        "*"
       ],
       "commitMessagePrefix": "chore(github-deps): "
     },
