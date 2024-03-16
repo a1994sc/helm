@@ -32,6 +32,13 @@
         "docker",
         "helm"
       ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch",
+        "bump",
+        "digest"
+      ],
       "matchPackagePrefixes": [
         "*"
       ],
