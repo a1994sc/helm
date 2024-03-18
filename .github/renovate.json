@@ -3,17 +3,11 @@
   "extends": [
     "config:recommended"
   ],
-  "assignees": ["@A1994SC"],
+  "assignees": [
+    "@A1994SC"
+  ],
   "dependencyDashboard": true,
-  "git-submodules": {
-    "enabled": true
-  },
   "bumpVersion": "patch",
-  "flux": {
-    "fileMatch": [
-      "(^|/)charts/.+\\.ya?ml(\\.j2)?$"
-    ]
-  },
   "helmv3": {
     "fileMatch": [
       "(^|/)charts/.+\\.ya?ml(\\.j2)?$"

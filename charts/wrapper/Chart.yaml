@@ -1,13 +1,14 @@
 apiVersion: v2
 name: wrapper
-version: 1.2.6
+version: 1.2.7
 description: Adds extra supporting packages
 dependencies:
 - name: common
   repository: oci://registry-1.docker.io/bitnamicharts
   tags:
   - bitnami-common
-  version: 2.x.x
+  # renovate: datasource=docker depName=registry-1.docker.io/bitnamicharts
+  version: 2.16.1
 type: application
 annotations:
   org.opencontainers.image.source: https://github.com/A1994SC/helm
