@@ -3,7 +3,7 @@
 {{- $pkg = include "resourceName" $pkg -}}
 {{- $fluxSettings := merge (dig "flux" dict $vals) $.Values.flux -}}
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: {{ $pkg }}-wrapper
