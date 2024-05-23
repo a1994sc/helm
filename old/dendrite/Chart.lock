@@ -1,33 +1,33 @@
 dependencies:
 - name: common
   repository: https://bjw-s.github.io/helm-charts/
-  version: 3.1.0
+  version: 3.2.1
 - name: nats
   repository: https://nats-io.github.io/k8s/helm/charts/
   version: 1.1.11
 - name: common
   repository: https://bjw-s.github.io/helm-charts/
-  version: 3.1.0
+  version: 3.2.1
 - name: common
   repository: https://bjw-s.github.io/helm-charts/
-  version: 3.1.0
+  version: 3.2.1
 - name: common
   repository: https://bjw-s.github.io/helm-charts/
-  version: 3.1.0
+  version: 3.2.1
 - name: common
   repository: https://bjw-s.github.io/helm-charts/
-  version: 3.1.0
+  version: 3.2.1
 - name: common
   repository: https://bjw-s.github.io/helm-charts/
-  version: 3.1.0
+  version: 3.2.1
 - name: common
   repository: https://bjw-s.github.io/helm-charts/
-  version: 3.1.0
+  version: 3.2.1
 - name: common
   repository: https://bjw-s.github.io/helm-charts/
-  version: 3.1.0
+  version: 3.2.1
 - name: common
   repository: https://bjw-s.github.io/helm-charts/
-  version: 3.1.0
-digest: sha256:875d010bb5294c1c1e0257c3be752f6c2a5fed7cdd60ec9fecf498850760b9c5
-generated: "2024-04-12T19:44:34.599839704Z"
+  version: 3.2.1
+digest: sha256:090759d3229fb1412328d9369ecc4448737123a6d2be248a46afeb6c7081179a
+generated: "2024-05-23T13:21:45.621130807Z"
