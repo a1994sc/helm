@@ -605,6 +605,6 @@ nats:
   # @default -- See value.yaml
   enabled: false
   nats:
-    image: nats:2.10.16-alpine
+    image: nats:2.10.24-alpine
     jetstream:
       enabled: true
