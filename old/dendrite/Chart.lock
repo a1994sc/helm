@@ -4,7 +4,7 @@ dependencies:
   version: 3.7.3
 - name: nats
   repository: https://nats-io.github.io/k8s/helm/charts/
-  version: 1.3.1
+  version: 1.3.2
 - name: common
   repository: https://bjw-s.github.io/helm-charts/
   version: 3.7.3
@@ -29,5 +29,5 @@ dependencies:
 - name: common
   repository: https://bjw-s.github.io/helm-charts/
   version: 3.7.3
-digest: sha256:2e67ed3189a2df07a9cd51169fdbafeee69c1ab3d4da2b29550ec9053e4caad6
-generated: "2025-03-21T06:38:14.661027355Z"
+digest: sha256:d13987935bf3cd1c0af09caee0cd077fae1c20c56fac127983bc99bf9f1a7d05
+generated: "2025-04-01T22:29:18.341893123Z"
